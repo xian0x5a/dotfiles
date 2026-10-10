@@ -70,7 +70,7 @@
 
 ## Verification
 
-- For non-trivial changes, leave test writing to an independent agent whose job is to break the change: brief it with the user's original words and the public interface only, blind to the implementation and your plan. Write tests yourself only for cases the user specified.
+- For non-trivial changes, leave test writing to an independent agent whose job is to break the change: brief it with the user's original words and the public interface only, blind to your plan and the implementation, though it may read source to learn how to call the system. Write tests yourself only for cases the user specified.
 - When an independent test fails, decide whether the code or the test misreads the requirement, and fix that side.
 - Then have another independent agent review the final change before shipping.
 - Test observable behavior and stable contracts, not incidental implementation details. Tests should survive behavior-preserving refactors and rewrites; test internals only when they encode intentional, stable invariants.
