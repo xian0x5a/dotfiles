@@ -11,7 +11,8 @@ imap.server = "imap.gmail.com"
 imap.sasl.xoauth2.username = "{{ vars.email.gmail.address }}"
 imap.sasl.xoauth2.token.command = ["ortie", "token", "show", "-a", "gmail"]
 
-# IMAP reports only the inbox role, so the other roles are mapped by hand.
+# himalaya resolves no mailbox role from IMAP, so every alias is mapped by hand.
+mailbox.alias.inbox = "INBOX"
 mailbox.alias.sent = "[Gmail]/Sent Mail"
 mailbox.alias.drafts = "[Gmail]/Drafts"
 mailbox.alias.trash = "[Gmail]/Trash"
@@ -33,10 +34,12 @@ imap.server = "outlook.office365.com"
 imap.sasl.xoauth2.username = "{{ vars.email.outlook.address }}"
 imap.sasl.xoauth2.token.command = ["ortie", "token", "show", "-a", "outlook"]
 
-mailbox.alias.sent = "Sent Items"
+# Outlook.com IMAP names differ from the web app's "Sent Items" and "Deleted Items".
+mailbox.alias.inbox = "INBOX"
+mailbox.alias.sent = "Sent"
 mailbox.alias.drafts = "Drafts"
-mailbox.alias.trash = "Deleted Items"
-mailbox.alias.junk = "Junk Email"
+mailbox.alias.trash = "Deleted"
+mailbox.alias.junk = "Junk"
 mailbox.alias.archive = "Archive"
 {% if vars.email.outlook.send %}
 
