@@ -1,3 +1,7 @@
+---
+status: done
+---
+
 # Port the Hyprland experiment to Lua, with the fullscreen fix and a virtual display
 
 ## Goal

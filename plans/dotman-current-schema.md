@@ -1,3 +1,7 @@
+---
+status: done
+---
+
 # Update dotman definitions to current upstream
 
 ## Goal and constraints

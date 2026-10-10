@@ -1,10 +1,8 @@
 # Execution Plans
 
-- Execution plans live under `./plans/<status>/`.
-- Allowed statuses: `proposed`, `active`, `blocked`, `done`, `dropped`. A plan awaiting user review is `proposed`.
-- Use folder status as source of truth; do not use frontmatter for status or title.
-- Use filename for plan identity.
-- Move files between status folders to change status.
+- Execution plans live flat under `./plans/`.
+- Use filename for plan identity; do not put a title in frontmatter.
+- Record status in frontmatter as `status: open` or `status: done`. Note waiting states, such as awaiting user review or blocked on something, in Progress.
 
 Plan body is not strict-schema validated. Use the shape that best fits the task, but keep the plan self-contained enough that another agent can continue from it.
 
@@ -22,4 +20,6 @@ Plans should cover, under clear headings when relevant:
 
 During implementation, update progress only for real checkpoints.
 
-Close the plan in the commit that lands or abandons the work: fill Outcomes & Retrospective, move decisions worth keeping into `docs/`, then move it to `done/` or `dropped/`. A reverted feature's plan moves to `dropped/` with the reason.
+Close the plan in the commit that lands the work: fill Outcomes & Retrospective, move decisions worth keeping into `docs/`, then set `status: done`.
+
+When work is abandoned or reverted, delete the plan in that commit. If the reason would stop the idea from being proposed again, record it in the relevant `docs/` note first; git history keeps the full plan.

@@ -1,3 +1,7 @@
+---
+status: done
+---
+
 # Rename the bridge to xembed-sni-proxy
 
 ## Goal
@@ -27,7 +31,7 @@ The implementation is no longer merely the upstream `wine-sni-bridge.py` script:
 3. Update Python imports, class name, packaging metadata, Dotman probe, service `ExecStart`, README, tests, and niri rule.
 4. Run targeted tests, package build/install validation, source scans, and diff checks.
 5. Ask the user to run `dotman push linux/xembedsniproxy linux/niri` (or their normal selector) to update live files and install the new executable.
-6. After the push, restart the retained service, verify the new process/app-id and both live SNI items, uninstall the obsolete uv tool, and remove this plan to `plans/done/`.
+6. After the push, restart the retained service, verify the new process/app-id and both live SNI items, uninstall the obsolete uv tool, and mark this plan done.
 
 ## Validation
 

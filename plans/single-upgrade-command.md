@@ -1,3 +1,7 @@
+---
+status: done
+---
+
 # Single upgrade command
 
 ## Goal

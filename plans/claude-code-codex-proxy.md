@@ -1,3 +1,7 @@
+---
+status: done
+---
+
 # CLIProxyAPI Docker migration
 
 ## Outcome

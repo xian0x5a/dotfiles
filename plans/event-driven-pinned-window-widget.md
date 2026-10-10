@@ -1,3 +1,7 @@
+---
+status: done
+---
+
 # Event-driven pinned window widget
 
 ## Goal

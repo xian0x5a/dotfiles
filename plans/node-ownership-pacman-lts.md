@@ -1,3 +1,7 @@
+---
+status: done
+---
+
 # Move node ownership to pacman, keep fnm for project versions
 
 ## Goal
