@@ -10,13 +10,14 @@ depends = [
 [vars.email]
 display_name = "Xian Zhang"
 
-# `send = true` adds the account's SMTP section. Tokens always carry send
-# rights, so toggling needs no new sign-in.
+# `send = true` adds the account's SMTP section. Sending is on by default
+# because the email skill already gates every send on explicit user approval.
+# Tokens always carry send rights, so toggling needs no new sign-in.
 [vars.email.gmail]
-send = false
+send = true
 
 [vars.email.outlook]
-send = false
+send = true
 
 [targets.f_config_himalaya_config_toml]
 source = "files/config/himalaya/config.toml"

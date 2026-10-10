@@ -36,13 +36,13 @@ Check with `himalaya envelope list -a gmail` and `-a outlook`.
 
 ## Sending switch
 
-Each account is drafts-only by default. To allow sending, override in `local.toml`:
+Each account can send by default. To make a machine drafts-only, override in `local.toml`:
 
 ```toml
 [vars.email.outlook]
-send = true
+send = false
 ```
 
-himalaya gains that account's `smtp` section; without it, `message send` fails. Both tokens always carry send rights (Gmail has no send-free scope, and Outlook's is granted up front), so toggling needs no new sign-in.
+himalaya then drops that account's `smtp` section, so `message send` fails. Both tokens always carry send rights (Gmail has no send-free scope, and Outlook's is granted up front), so toggling needs no new sign-in.
 
 Agents with shell access can still use the stored token directly; the switch prevents mistakes, not a determined attacker.
