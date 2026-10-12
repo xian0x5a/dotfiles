@@ -15,18 +15,18 @@ The package has two targets:
   installed commit that is ahead of upstream is kept.
 
 Topgrade loads the package's `~/.config/topgrade.d/niri-custom-git.toml` and
-runs `dotman --unattended push niri-custom-git.niri_custom_git_update` as
+runs `dotman --no-confirm push niri-custom-git.niri_custom_git_update` as
 **Niri custom build**. To run only that update:
 
 ```bash
 topgrade --only custom_commands --custom-commands "Niri custom build"
 ```
 
-The global `--unattended`
+The global `--no-confirm`
 flag skips dotman's review and confirmation, and the narrow selector does not push
-the Niri configuration package. Unattended dotman never prompts for `sudo`: the
-install reuses the sudo ticket from Topgrade's earlier system step and fails with
-`sudo authentication unavailable in unattended mode` once that ticket has expired.
+the Niri configuration package. Sudo still authenticates: the install reuses the
+sudo ticket from Topgrade's earlier system step and asks for the password again
+once that ticket has expired.
 
 For a manual build from the repository root:
 
