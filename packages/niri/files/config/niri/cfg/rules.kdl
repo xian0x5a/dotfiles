@@ -98,6 +98,7 @@ window-rule {
     // T3 Code is the primary coding tool, so it sits with the editor and terminals.
     match app-id=r#"^com\.t3tools\.T3Code$"#
     open-on-workspace "main"
+    open-maximized true
 }
 
 window-rule {
