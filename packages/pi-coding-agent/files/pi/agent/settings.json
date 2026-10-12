@@ -14,8 +14,18 @@
       ]
     },
     "npm:@r3b1s/pi-vim-stash",
-    "npm:@howaboua/pi-codex-web-run",
-    "npm:@howaboua/pi-codex-imagegen",
+    {
+      "source": "npm:@howaboua/pi-codex-web-run",
+      "extensions": [
+        "-index.ts"
+      ]
+    },
+    {
+      "source": "npm:@howaboua/pi-codex-imagegen",
+      "extensions": [
+        "-index.ts"
+      ]
+    },
     "npm:pi-antigravity",
     "npm:@xian0x5a/pi-durable-subagents"
   ],
