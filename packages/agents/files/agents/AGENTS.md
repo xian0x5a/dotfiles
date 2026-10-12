@@ -71,11 +71,11 @@
 ## Verification
 
 - For non-trivial changes, leave test writing to an independent agent whose job is to break the change: brief it with the user's original words and the public interface only, blind to your plan and the implementation, though it may read source to learn the interfaces. Write tests yourself only for cases the user specified.
-- For bug fixes, have that agent write the regression test before the fix and see it fail for the expected reason; it replaces the post-fix test.
 - When an independent test fails, decide whether the code or the test misreads the requirement, and fix that side.
 - Then have another independent agent review the final change before shipping.
 - Test observable behavior and stable contracts, not incidental implementation details. Tests should survive behavior-preserving refactors and rewrites; test internals only when they encode intentional, stable invariants.
 - Size tests to the change's risk, not its surface: one test per distinct behavior, at the highest stable layer that exposes it. Avoid overlapping tests. Prefer table-driven tests for input validation.
+- For bug fixes that warrant a test under these rules, have the independent agent write the regression test before the fix and see it fail for the expected reason; it replaces the post-fix test.
 - Use bounded test timeouts appropriate to the operation; distinguish slow tests from hung tests.
 - If the full test suite takes long (>10s), do not run it as a whole until you are ready to finish and you should not run the full test suite if the blast radius is small.
 
