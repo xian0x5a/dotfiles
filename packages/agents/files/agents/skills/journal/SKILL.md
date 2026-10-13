@@ -59,7 +59,8 @@ Capture the final intention, decisions, reusable facts, and lessons. Remove supe
 
 Write plain prose without bullets. Put each independent idea on its own physical line so later edits can target it precisely. Use blank lines between distinct themes.
 
-The body is Markdown and must render correctly in common Markdown renderers.
+The body is Markdown and must render correctly in Obsidian and common Markdown renderers.
+In Obsidian, `#` followed by text in prose becomes a tag; escape it as `\#` (e.g. `\#6-#16`, `\#DB`) unless a tag is intended.
 Wrap code, identifiers, keys, paths, commands, JSON, and error text in inline code (e.g. `$ref`, `#/$defs/x`, `<path>`); use a fenced block for multi-line snippets.
 Use `$…$` / `$$…$$` only for intentional math; a literal `$` in prose goes in inline code or is escaped as `\$`.
 
