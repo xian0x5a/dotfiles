@@ -13,7 +13,7 @@
 
 ## Disk Operations
 
-- Use soft deletion `trash-put` instead of `rm`
+- Use soft deletion instead of `rm`, e.g. `trash-put` (Linux)
 - Avoid recursive searches of large directories like `$HOME`; bound any that are necessary with a timeout
 
 ## Storage Locations
