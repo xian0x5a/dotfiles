@@ -79,7 +79,7 @@ Applies to non-trivial changes.
 - Size tests to the change's risk, not its surface: one test per distinct behavior, at the highest stable layer that exposes it. Avoid overlapping tests. Prefer table-driven tests for input validation.
 - For bug fixes that warrant a test under these rules, have the independent agent write the regression test before the fix and see it fail for the expected reason; it replaces the post-fix test.
 - Use bounded test timeouts appropriate to the operation; distinguish slow tests from hung tests.
-- If the full test suite takes long (>10s), do not run it as a whole until you are ready to finish and you should not run the full test suite if the blast radius is small.
+- Run tests scoped to the change by default. Run the full suite only when the blast radius is wide, and if it is slow (>10s), only once when ready to finish.
 
 ## Context Efficiency
 
