@@ -62,9 +62,11 @@ probe = "{{ PROBE_PACKAGES_INSTALLED }} tmux oh-my-posh"
 [targets.terminal_workflow_tools_installed.hooks]
 pre_push = "{{ INSTALL }} tmux oh-my-posh"
 
+# trash-cli is Linux-only: on macOS Homebrew installs it keg-only and it trashes to
+# ~/.local/share/Trash, invisible to Finder; macOS ships /usr/bin/trash instead.
 [targets.file_management_tools_installed]
 sync_policy = "push-only"
-probe = "{{ PROBE_PACKAGES_INSTALLED }} rsync trash-cli chafa"
+probe = '{{ PROBE_PACKAGES_INSTALLED }} rsync{% if os == "linux" %} trash-cli{% endif %} chafa'
 
 [targets.file_management_tools_installed.hooks]
-pre_push = "{{ INSTALL }} rsync trash-cli chafa"
+pre_push = '{{ INSTALL }} rsync{% if os == "linux" %} trash-cli{% endif %} chafa'
