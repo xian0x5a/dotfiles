@@ -112,7 +112,8 @@ anchor = true
 group_by_workspace = true
 hide_empty_workspaces = true
 scale = 1.3
-workspace_group_capsule = false
+show_workspace_label = false
+workspace_group_capsule = true
 workspace_label_placement = "inside"
 
     [widget.taskbar.actions]
