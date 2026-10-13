@@ -61,7 +61,7 @@
 - Mandatory comment cases: when a change may look arbitrary or unjustified during later review because the reason is not obvious from local context. In those cases, comment the reason, constraint, or symptom being handled, not just what the code does
 - Declarative over imperative. Prefer declarative style when it improves readability and maintainability. Encapsulate imperative logic in small, well-named functions, and keep core logic primarily compositional
 - Keep components modular and concerns clearly separated.
-- During implementation, separate enabling refactors from opportunistic changes. Small local refactors are OK if they directly support the requested change. For adjacent cleanup, robustness improvements, behavior changes, or unrelated bug fixes: do not include them silently; propose them as follow-ups or ask before expanding scope.
+- During implementation, separate enabling refactors from opportunistic changes. Small local refactors are OK if they directly support the requested change. For adjacent cleanup, robustness improvements, behavior changes, or unrelated bug fixes: do not include them silently; track them as follow-ups (see GitHub) or ask before expanding scope.
 - Failed fast, do not abuse fallback cases and try-catch blocks in core logic for hiding the issues
 - Keep environment-specific and user-configurable values out of source. Use named constants for meaningful fixed values.
 - Lean on the dependencies already in the project before writing your own implementation or adding packages. Do not assume a library lacks a capability without checking its documentation and types.
@@ -113,6 +113,7 @@
 
 - Link parent/sub-issues natively in GitHub when both repositories are owned by the user.
 - Silent references (no timeline events on repositories not owned by the user): only when the user asks; follow `~/.agents/docs/github-silent-refs.md`.
+- Out-of-scope review findings: in user-owned repos with issues enabled, file an issue per verified unfixed finding without asking; dedupe first, include evidence, list links in the handoff. Elsewhere, or if speculative, ask.
 
 ## CLI Tools
 
