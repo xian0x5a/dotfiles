@@ -7,18 +7,8 @@
     "browserArtifactsAfterDays": 8,
     "logsAfterDays": 8
   },
+  "autoResumeLimitedThreads": true,
   "sidebarAutoSettleOnMerge": false,
-  "providers": {
-    "cursor": {
-      "enabled": false
-    },
-    "grok": {
-      "enabled": false
-    },
-    "opencode": {
-      "enabled": false
-    }
-  },
   "providerInstances": {
     "pi": {
       "driver": "pi",
