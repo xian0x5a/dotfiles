@@ -1,4 +1,3 @@
-id = "gsettings"
 description = "Bundled GNOME desktop, Nautilus, and GTK settings"
 
 [targets.f_config_gsettings_desktop_ini]

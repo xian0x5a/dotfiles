@@ -1,4 +1,3 @@
-id = "go-lang"
 description = "Go language toolchain bootstrap"
 
 [targets.go_toolchain_installed]

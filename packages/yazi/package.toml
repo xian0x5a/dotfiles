@@ -1,4 +1,3 @@
-id = "yazi"
 description = "Yazi terminal file manager configuration"
 
 [targets.f_config_yazi_toml]

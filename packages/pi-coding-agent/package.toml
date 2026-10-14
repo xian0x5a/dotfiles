@@ -1,5 +1,3 @@
-id = "pi-coding-agent"
-
 depends = [
   "agents",
   "nodejs",

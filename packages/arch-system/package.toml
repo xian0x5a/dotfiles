@@ -1,4 +1,3 @@
-id = "arch-system"
 description = "Arch Linux base-system, package-manager, and initramfs configuration"
 
 [vars.arch_system]

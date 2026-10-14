@@ -1,4 +1,3 @@
-id = "host/linux-niri-meta"
 description = "Linux Niri host entrypoint meta package"
 
 depends = [

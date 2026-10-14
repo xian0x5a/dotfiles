@@ -1,4 +1,3 @@
-id = "steam"
 description = "Steam launcher"
 
 [targets.f_local_share_applications_steam_desktop]

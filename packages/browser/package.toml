@@ -1,4 +1,3 @@
-id = "browser"
 description = "Chromium/Electron launch flags and Chrome web-app launchers"
 
 [targets.f_config_chrome_flags_conf]

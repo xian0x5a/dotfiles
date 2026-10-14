@@ -1,4 +1,3 @@
-id = "xsettings"
 description = "xsettingsd config and session activation"
 
 [targets.f_config_xsettingsd_xsettingsd_conf]

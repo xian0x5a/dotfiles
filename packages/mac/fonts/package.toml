@@ -1,4 +1,3 @@
-id = "mac/fonts"
 description = "macOS font package"
 
 [targets.mac_fonts_installed]

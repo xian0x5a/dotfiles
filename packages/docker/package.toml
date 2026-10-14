@@ -1,4 +1,3 @@
-id = "docker"
 description = "Docker daemon configuration"
 
 [targets.d_etc_docker]

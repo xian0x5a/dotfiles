@@ -1,4 +1,3 @@
-id = "deepseek-harness"
 description = "On-demand DeepSeek Harness Web UI configuration"
 
 depends = [

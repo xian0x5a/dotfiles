@@ -1,4 +1,3 @@
-id = "linux/1password"
 description = "Linux 1Password variant"
 extends = ["1password"]
 

@@ -1,4 +1,3 @@
-id = "secret-service"
 description = "KWallet-backed Freedesktop Secret Service and client tooling"
 
 [targets.f_config_kwalletrc]

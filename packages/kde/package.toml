@@ -1,4 +1,3 @@
-id = "kde"
 description = "KDE Plasma user and supporting system configuration"
 
 [targets.f_config_kdeglobals]

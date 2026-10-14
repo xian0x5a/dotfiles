@@ -1,4 +1,3 @@
-id = "linux/network"
 description = "Linux NetworkManager defaults"
 
 [targets.f_etc_networkmanager_conf_d_wake_on_lan_conf]

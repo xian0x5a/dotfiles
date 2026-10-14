@@ -1,4 +1,3 @@
-id = "linux/status-notifier"
 description = "Linux StatusNotifier/tray readiness helpers"
 
 [targets.f_usr_local_bin_wait_for_tray_host]

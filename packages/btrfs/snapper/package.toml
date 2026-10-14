@@ -1,4 +1,3 @@
-id = "btrfs/snapper"
 description = "Snapper snapshot configuration and timers"
 
 [targets.f_etc_conf_d_snapper]

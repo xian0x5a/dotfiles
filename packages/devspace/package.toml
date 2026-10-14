@@ -1,4 +1,3 @@
-id = "devspace"
 description = "DevSpace MCP coding harness for ChatGPT"
 
 depends = [

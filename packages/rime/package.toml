@@ -1,4 +1,3 @@
-id = "rime"
 description = "IBus Rime custom dictionaries"
 
 [targets.d_config_ibus_rime]

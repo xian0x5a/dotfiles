@@ -1,4 +1,3 @@
-id = "linux/fonts"
 description = "Linux font configuration"
 
 [targets.f_etc_fonts_local_conf]

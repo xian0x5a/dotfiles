@@ -1,4 +1,3 @@
-id = "host/linux-cosmic-comp-meta"
 description = "Linux COSMIC Comp host entrypoint meta package"
 
 depends = [

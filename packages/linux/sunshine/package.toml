@@ -1,4 +1,3 @@
-id = "linux/sunshine"
 description = "Sunshine host streaming configuration"
 
 # WayVNC provides an out-of-band control path for approving Sunshine portal dialogs.

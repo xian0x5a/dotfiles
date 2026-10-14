@@ -1,4 +1,3 @@
-id = "git"
 description = "Git and Lazygit workflow configuration"
 
 [vars.git.user]

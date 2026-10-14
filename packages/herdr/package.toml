@@ -1,4 +1,3 @@
-id = "herdr"
 description = "Herdr terminal workspace manager"
 
 [targets.installed]

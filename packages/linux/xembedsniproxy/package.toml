@@ -1,4 +1,3 @@
-id = "linux/xembedsniproxy"
 description = "XEmbed-to-SNI tray bridge for Wayland (Wine/Proton and legacy X11 tray icons)"
 
 [targets.xembed_sni_proxy_tool]

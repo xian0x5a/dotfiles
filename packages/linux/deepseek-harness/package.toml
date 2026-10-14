@@ -1,4 +1,3 @@
-id = "linux/deepseek-harness"
 description = "Linux desktop integration for DeepSeek Harness"
 
 depends = [

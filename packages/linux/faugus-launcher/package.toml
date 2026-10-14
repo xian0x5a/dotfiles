@@ -1,4 +1,3 @@
-id = "linux/faugus-launcher"
 description = "Install and config for Faugus Launcher"
 
 depends = [

@@ -1,4 +1,3 @@
-id = "linux/desktop"
 description = "Linux desktop session configuration"
 
 [targets.d_config_autostart]

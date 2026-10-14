@@ -1,4 +1,3 @@
-id = "niri"
 description = "Niri compositor configuration"
 
 depends = [

@@ -1,4 +1,3 @@
-id = "email"
 description = "Email via ortie OAuth tokens: himalaya CLI for Gmail and Outlook"
 
 depends = [

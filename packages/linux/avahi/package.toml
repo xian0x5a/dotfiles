@@ -1,4 +1,3 @@
-id = "linux/avahi"
 description = "Avahi mDNS daemon constrained to physical LAN interfaces"
 
 [targets.f_etc_avahi_avahi_daemon_conf]

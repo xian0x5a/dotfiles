@@ -1,4 +1,3 @@
-id = "sway-experiment"
 description = "Sway experiment configuration snapshot"
 
 depends = [

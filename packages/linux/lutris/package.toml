@@ -1,4 +1,3 @@
-id = "linux/lutris"
 description = "Install and configs for Lutris, a linux gaming platform"
 
 [targets.lutris_installed]

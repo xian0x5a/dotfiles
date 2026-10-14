@@ -1,4 +1,3 @@
-id = "bin"
 description = "Personal command-line scripts"
 
 [targets.d_bin]

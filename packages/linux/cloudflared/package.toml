@@ -1,4 +1,3 @@
-id = "linux/cloudflared"
 description = "Cloudflare Tunnel client"
 
 # Install only. A tunnel is a concrete thing — which hostname it publishes and which

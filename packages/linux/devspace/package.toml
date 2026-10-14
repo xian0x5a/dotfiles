@@ -1,4 +1,3 @@
-id = "linux/devspace"
 description = "Systemd service for the DevSpace MCP server"
 
 depends = [

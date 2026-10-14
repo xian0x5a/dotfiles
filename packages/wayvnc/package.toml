@@ -1,4 +1,3 @@
-id = "wayvnc"
 description = "WayVNC remote control for Wayland sessions"
 
 [targets.f_config_systemd_user_wayvnc_service]

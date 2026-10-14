@@ -1,4 +1,3 @@
-id = "niri-custom-git"
 description = "Custom Git build of Niri"
 
 depends = [

@@ -1,4 +1,3 @@
-id = "cliamp"
 description = "Terminal music player configuration"
 
 [targets.f_config_cliamp_config_toml]

@@ -1,4 +1,3 @@
-id = "keyd"
 description = "keyd keyboard remapping config and user service"
 
 [targets.f_etc_keyd_default_conf]

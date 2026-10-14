@@ -1,4 +1,3 @@
-id = "codex"
 description = "Bundled Codex CLI configuration, agents, and rules"
 depends = ["agents"]
 

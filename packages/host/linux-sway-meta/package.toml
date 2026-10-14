@@ -1,4 +1,3 @@
-id = "host/linux-sway-meta"
 description = "Linux Sway host entrypoint meta package"
 
 depends = [

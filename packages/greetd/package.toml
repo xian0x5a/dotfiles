@@ -1,4 +1,3 @@
-id = "greetd"
 description = "greetd display manager and tuigreet configuration"
 
 [targets.f_etc_greetd_config_toml]

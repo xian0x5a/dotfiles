@@ -1,4 +1,3 @@
-id = "mpv"
 description = "mpv configuration"
 
 [targets.d_config_mpv]

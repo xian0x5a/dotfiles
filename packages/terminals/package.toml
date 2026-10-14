@@ -1,4 +1,3 @@
-id = "terminals"
 description = "Bundled Alacritty, Kitty, and Ghostty terminal configuration"
 
 [targets.d_config_alacritty]

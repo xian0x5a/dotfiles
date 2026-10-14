@@ -1,4 +1,3 @@
-id = "hunk"
 description = "Hunk terminal diff viewer configuration"
 
 [targets.f_config_hunk_config_toml]

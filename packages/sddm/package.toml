@@ -1,4 +1,3 @@
-id = "sddm"
 description = "SDDM configuration"
 
 [targets.f_etc_sddm_conf]

@@ -1,4 +1,3 @@
-id = "topgrade"
 description = "Interactive workstation upgrade orchestration"
 
 [targets.topgrade_installed]

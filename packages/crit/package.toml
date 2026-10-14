@@ -1,4 +1,3 @@
-id = "crit"
 description = "Crit agent workflow CLI"
 
 depends = [

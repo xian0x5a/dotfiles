@@ -1,4 +1,3 @@
-id = "fcitx5"
 description = "Fcitx5 configuration"
 
 [targets.d_config_fcitx5]

@@ -1,4 +1,3 @@
-id = "claude"
 depends = ["agents"]
 
 [vars.claude]

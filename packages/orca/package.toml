@@ -1,4 +1,3 @@
-id = "orca"
 description = "Orca desktop app for running coding agents in parallel worktrees"
 
 [targets.orca_install]

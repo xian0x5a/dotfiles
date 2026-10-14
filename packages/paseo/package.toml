@@ -1,4 +1,3 @@
-id = "paseo"
 description = "Paseo desktop app, bundled CLI, and daemon"
 
 [targets.paseo_install]

@@ -1,4 +1,3 @@
-id = "nodejs"
 description = "Node.js runtime packages, global npm state, and user configuration"
 
 [targets.f_npmrc]
