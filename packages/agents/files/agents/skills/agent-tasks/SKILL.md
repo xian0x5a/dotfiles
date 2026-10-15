@@ -62,12 +62,12 @@ EOF
 A reminder is a user task with dates, and needs no orchestration. Title it as the action the user takes; the brief is what they need in hand when it fires:
 
 ```bash
-~/.agents/skills/agent-tasks/run.py create --title "<action>" --for-user [--scheduled <date>] [--due <date>] [--remind-at <YYYY-MM-DDTHH:MM>]... <<'EOF'
+~/.agents/skills/agent-tasks/run.py create --title "<action>" --for-user [--scheduled <date>] [--due <date>] [--remind-before-scheduled <lead>]... [--remind-before-due <lead>]... [--remind-at <YYYY-MM-DDTHH:MM>]... <<'EOF'
 <context>
 EOF
 ```
 
-`--scheduled` is when the user plans to do it, `--due` the deadline; each takes `YYYY-MM-DD` or `YYYY-MM-DDTHH:MM`. Each `--remind-at` notifies "Reminder: <title>" at that local time, but only while Obsidian desktop is running; one that comes due while it is closed never shows. Pair a reminder with `--scheduled` so the task shows in the calendar and agenda views.
+`--scheduled` is when the user plans to do it, `--due` the deadline; each takes `YYYY-MM-DD` or `YYYY-MM-DDTHH:MM`. Reach for `--remind-before-scheduled` and `--remind-before-due` first (`15m`, `2h`, `1d`, or `0m` for on time): they follow the date when the user reschedules. A date without a time counts as midnight, so give it a time when the reminder should fire during the day. `--remind-at` is for a moment tied to neither date; add `--scheduled` too so the task still shows in the calendar. Reminders fire only while Obsidian desktop is running; one that comes due while it is closed never shows.
 
 ## Reading
 

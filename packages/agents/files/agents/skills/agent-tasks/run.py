@@ -14,7 +14,7 @@ import re
 import sys
 import time
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import datetime, timedelta
 from pathlib import Path
 
 import yaml
@@ -30,6 +30,7 @@ STATUS_FOR_OUTCOME = {"done": "done", "failed": "paused"}
 # TaskNotes stores dates and times as local wall-clock values without an offset.
 DATE_FORMAT = "%Y-%m-%d"
 DATE_TIME_FORMAT = "%Y-%m-%dT%H:%M"
+REMINDER_LEAD_TIME = re.compile(r"^(\d+)([mhd])$")
 
 
 class TaskError(Exception):
@@ -134,14 +135,42 @@ def reminder_time(value: str) -> datetime:
         raise argparse.ArgumentTypeError(f"expected YYYY-MM-DDTHH:MM, got {value!r}") from None
 
 
-def reminder_entries(moments: list[datetime]) -> list[dict[str, str]]:
-    # Without a description TaskNotes notifies "Reminder: <title>". Ids follow TaskNotes' rem_<epoch ms>, indexed for uniqueness.
+def reminder_lead_time(value: str) -> timedelta:
+    """A lead time such as 15m, 2h, or 1d."""
+    match = REMINDER_LEAD_TIME.match(value)
+    if match is None:
+        raise argparse.ArgumentTypeError(f"expected minutes, hours, or days such as 15m, 2h, 1d, got {value!r}")
+    amount, unit = int(match.group(1)), match.group(2)
+    return {"m": timedelta(minutes=amount), "h": timedelta(hours=amount), "d": timedelta(days=amount)}[unit]
+
+
+def iso_offset_before(lead: timedelta) -> str:
+    """The negative ISO 8601 duration TaskNotes stores, in the largest whole unit so equal leads such as 60m and 1h match."""
+    minutes = int(lead.total_seconds()) // 60
+    if minutes == 0:
+        return "PT0M"  # TaskNotes' own "at time of" value
+    if minutes % (24 * 60) == 0:
+        return f"-P{minutes // (24 * 60)}D"
+    if minutes % 60 == 0:
+        return f"-PT{minutes // 60}H"
+    return f"-PT{minutes}M"
+
+
+def absolute_reminder(moment: datetime) -> dict[str, str]:
+    return {"type": "absolute", "absoluteTime": moment.isoformat(timespec="seconds")}
+
+
+def relative_reminder(anchor: str, lead: timedelta) -> dict[str, str]:
+    # TaskNotes computes the time from the task's current date, so it follows the user's reschedules.
+    return {"type": "relative", "relatedTo": anchor, "offset": iso_offset_before(lead)}
+
+
+def with_reminder_ids(reminders: list[dict[str, str]]) -> list[dict[str, str]]:
+    # Without a description TaskNotes notifies with a default message. Ids follow TaskNotes' rem_<epoch ms>, indexed for uniqueness.
     id_base = time.time_ns() // 1_000_000
-    return [
-        {"id": f"rem_{id_base}_{index}", "type": "absolute", "absoluteTime": moment.isoformat(timespec="seconds")}
-        # A repeated time would notify twice, since TaskNotes tracks each reminder id separately.
-        for index, moment in enumerate(dict.fromkeys(moments))
-    ]
+    # A repeated reminder would notify twice, since TaskNotes tracks each reminder id separately.
+    unique_reminders = {tuple(reminder.items()): reminder for reminder in reminders}.values()
+    return [{"id": f"rem_{id_base}_{index}", **reminder} for index, reminder in enumerate(unique_reminders)]
 
 
 def yaml_scalar(value: str) -> str:
@@ -268,14 +297,26 @@ def command_create(args: argparse.Namespace) -> None:
     directory = tasks_dir()
     require_tasks_exist(directory, "Parent", [args.parent] if args.parent else [])
     require_tasks_exist(directory, "Blocker", args.blocked_by)
-    user_schedule = {key: value for key, value in {"scheduled": args.scheduled, "due": args.due}.items() if value}
-    if args.remind_at:
-        user_schedule["reminders"] = reminder_entries(args.remind_at)
+    anchor_dates = {"scheduled": args.scheduled, "due": args.due}
+    lead_times = {"scheduled": args.remind_before_scheduled, "due": args.remind_before_due}
+    for anchor, leads in lead_times.items():
+        if leads and not anchor_dates[anchor]:
+            raise TaskError(f"--remind-before-{anchor} needs --{anchor}.")
+    # Pair each reminder with when it fires; a date without a time anchors at midnight, as in TaskNotes.
+    timed_reminders = [(moment, absolute_reminder(moment)) for moment in args.remind_at] + [
+        (datetime.fromisoformat(anchor_dates[anchor]) - lead, relative_reminder(anchor, lead))
+        for anchor, leads in lead_times.items()
+        for lead in leads
+    ]
+    user_schedule = {key: value for key, value in anchor_dates.items() if value}
+    if timed_reminders:
+        user_schedule["reminders"] = with_reminder_ids([reminder for _, reminder in timed_reminders])
     if user_schedule and not args.for_user:
-        raise TaskError("--scheduled, --due, and --remind-at are for the user's tasks; add --for-user.")
-    past_reminders = [moment for moment in args.remind_at if moment <= datetime.now()]
-    if past_reminders:
-        raise TaskError(f"Reminder time already passed: {past_reminders[0]:{DATE_TIME_FORMAT}}")
+        raise TaskError("Dates and reminders are for the user's tasks; add --for-user.")
+    # TaskNotes only watches for reminders after it starts, so a past one never fires.
+    past_times = [fire_time for fire_time, _ in timed_reminders if fire_time <= datetime.now()]
+    if past_times:
+        raise TaskError(f"Reminder time already passed: {min(past_times):{DATE_TIME_FORMAT}}")
     brief = read_stdin("Brief")
     print(write_new_task_file(directory, render_new_task(args.title, args.parent, args.blocked_by, brief, args.for_user, user_schedule)))
 
@@ -352,6 +393,8 @@ def build_parser() -> argparse.ArgumentParser:
     create.add_argument("--scheduled", type=task_date, metavar="DATE", help="With --for-user: when the user plans to do it, YYYY-MM-DD or YYYY-MM-DDTHH:MM.")
     create.add_argument("--due", type=task_date, metavar="DATE", help="With --for-user: deadline, YYYY-MM-DD or YYYY-MM-DDTHH:MM.")
     create.add_argument("--remind-at", type=reminder_time, action="append", default=[], metavar="TIME", help="With --for-user: notify the user at local YYYY-MM-DDTHH:MM; repeatable.")
+    create.add_argument("--remind-before-scheduled", type=reminder_lead_time, action="append", default=[], metavar="LEAD", help="With --scheduled: notify this long before it, such as 15m, 2h, 1d, or 0m; repeatable.")
+    create.add_argument("--remind-before-due", type=reminder_lead_time, action="append", default=[], metavar="LEAD", help="With --due: notify this long before it, such as 15m, 2h, 1d, or 0m; repeatable.")
     create.set_defaults(handler=command_create)
 
     commands.add_parser("ready", help="List open agent subtasks whose blockers are done, as 'stem<TAB>title'.").set_defaults(handler=command_ready)
