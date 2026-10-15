@@ -18,6 +18,9 @@ path = "~/.agents"
 patterns = [
   "artifacts/",
   "tools/",
+  # Agent tool files: settings and app state, which may hold browser logins.
+  "config/",
+  "state/",
 ]
 # Skills installed by `npx skills` are tracked only by the lock file below.
 command = 'node "$DOTMAN_PACKAGE_ROOT/scripts/managed_skills.mjs" ignores'
