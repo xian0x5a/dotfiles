@@ -27,6 +27,9 @@ PLAIN_SCALAR = re.compile(r"^[\w.:+\-]+$")
 FRONTMATTER = re.compile(r"\A---\n(.*?\n)---\n", re.DOTALL)
 RESULT_HEADING = "## Result"
 STATUS_FOR_OUTCOME = {"done": "done", "failed": "paused"}
+# TaskNotes stores dates and times as local wall-clock values without an offset.
+DATE_FORMAT = "%Y-%m-%d"
+DATE_TIME_FORMAT = "%Y-%m-%dT%H:%M"
 
 
 class TaskError(Exception):
@@ -113,6 +116,34 @@ def task_stem_list(value: str) -> list[str]:
     return [stem.strip() for stem in value.split(",") if stem.strip()]
 
 
+def task_date(value: str) -> str:
+    """A `scheduled` or `due` value: a date, or a date and time."""
+    for date_format in (DATE_FORMAT, DATE_TIME_FORMAT):
+        try:
+            # Re-format so loosely padded input such as 2026-1-5 lands zero-padded, as TaskNotes writes it.
+            return datetime.strptime(value, date_format).strftime(date_format)
+        except ValueError:
+            continue
+    raise argparse.ArgumentTypeError(f"expected YYYY-MM-DD or YYYY-MM-DDTHH:MM, got {value!r}")
+
+
+def reminder_time(value: str) -> datetime:
+    try:
+        return datetime.strptime(value, DATE_TIME_FORMAT)
+    except ValueError:
+        raise argparse.ArgumentTypeError(f"expected YYYY-MM-DDTHH:MM, got {value!r}") from None
+
+
+def reminder_entries(moments: list[datetime]) -> list[dict[str, str]]:
+    # Without a description TaskNotes notifies "Reminder: <title>". Ids follow TaskNotes' rem_<epoch ms>, indexed for uniqueness.
+    id_base = time.time_ns() // 1_000_000
+    return [
+        {"id": f"rem_{id_base}_{index}", "type": "absolute", "absoluteTime": moment.isoformat(timespec="seconds")}
+        # A repeated time would notify twice, since TaskNotes tracks each reminder id separately.
+        for index, moment in enumerate(dict.fromkeys(moments))
+    ]
+
+
 def yaml_scalar(value: str) -> str:
     # JSON strings are valid YAML double-quoted scalars.
     return value if PLAIN_SCALAR.match(value) else json.dumps(value, ensure_ascii=False)
@@ -185,7 +216,9 @@ def read_stdin(name: str) -> str:
     return text
 
 
-def render_new_task(title: str, parent_stem: str | None, blocker_stems: list[str], brief: str, for_user: bool) -> str:
+def render_new_task(
+    title: str, parent_stem: str | None, blocker_stems: list[str], brief: str, for_user: bool, user_schedule: dict[str, str | list]
+) -> str:
     timestamp = now_timestamp()
     # The user's own tasks carry no owner; their board shows every task not owned by agents.
     owner_line = "" if for_user else f"owner: {AGENT_OWNER}\n"
@@ -203,6 +236,7 @@ def render_new_task(title: str, parent_stem: str | None, blocker_stems: list[str
         # TaskNotes treats a task listed in `projects` as the parent of this one.
         + render_frontmatter_key("projects", [task_link(parent_stem)] if parent_stem else [])
         + render_frontmatter_key("blockedBy", [blocker_entry(stem) for stem in blocker_stems])
+        + "".join(render_frontmatter_key(key, value) for key, value in user_schedule.items())
         + f"---\n\n{brief}\n{result_section}"
     )
 
@@ -234,8 +268,16 @@ def command_create(args: argparse.Namespace) -> None:
     directory = tasks_dir()
     require_tasks_exist(directory, "Parent", [args.parent] if args.parent else [])
     require_tasks_exist(directory, "Blocker", args.blocked_by)
+    user_schedule = {key: value for key, value in {"scheduled": args.scheduled, "due": args.due}.items() if value}
+    if args.remind_at:
+        user_schedule["reminders"] = reminder_entries(args.remind_at)
+    if user_schedule and not args.for_user:
+        raise TaskError("--scheduled, --due, and --remind-at are for the user's tasks; add --for-user.")
+    past_reminders = [moment for moment in args.remind_at if moment <= datetime.now()]
+    if past_reminders:
+        raise TaskError(f"Reminder time already passed: {past_reminders[0]:{DATE_TIME_FORMAT}}")
     brief = read_stdin("Brief")
-    print(write_new_task_file(directory, render_new_task(args.title, args.parent, args.blocked_by, brief, args.for_user)))
+    print(write_new_task_file(directory, render_new_task(args.title, args.parent, args.blocked_by, brief, args.for_user, user_schedule)))
 
 
 def command_edit(args: argparse.Namespace) -> None:
@@ -307,6 +349,9 @@ def build_parser() -> argparse.ArgumentParser:
     create.add_argument("--for-user", action="store_true", help="Create a task for the user on their board instead of an agent subtask.")
     create.add_argument("--parent", metavar="TASK", help="Task file stem this becomes a subtask of; any owner.")
     create.add_argument("--blocked-by", type=task_stem_list, action="extend", default=[], metavar="TASKS", help="Blocking task file stems, comma-separated or repeated.")
+    create.add_argument("--scheduled", type=task_date, metavar="DATE", help="With --for-user: when the user plans to do it, YYYY-MM-DD or YYYY-MM-DDTHH:MM.")
+    create.add_argument("--due", type=task_date, metavar="DATE", help="With --for-user: deadline, YYYY-MM-DD or YYYY-MM-DDTHH:MM.")
+    create.add_argument("--remind-at", type=reminder_time, action="append", default=[], metavar="TIME", help="With --for-user: notify the user at local YYYY-MM-DDTHH:MM; repeatable.")
     create.set_defaults(handler=command_create)
 
     commands.add_parser("ready", help="List open agent subtasks whose blockers are done, as 'stem<TAB>title'.").set_defaults(handler=command_ready)

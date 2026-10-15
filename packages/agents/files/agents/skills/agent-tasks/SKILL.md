@@ -1,7 +1,7 @@
 ---
 name: agent-tasks
 description: >
-  Subtasks for autonomous agent orchestration, kept as TaskNotes on the Agent Board in the user's Obsidian vault. Use when an orchestration session splits work into subtasks, picks the next ready subtask, a worker starts or finishes one, or an agent needs the user to do something only they can (a decision, a login, a manual step). Work done together with the user (grilling, wayfinder, design sessions) goes to GitHub issues instead.
+  Subtasks for autonomous agent orchestration, plus the user's own tasks and reminders, kept as TaskNotes in the user's Obsidian vault. Use when an orchestration session splits work into subtasks, picks the next ready subtask, a worker starts or finishes one, or an agent needs the user to do something only they can (a decision, a login, a manual step). Work done together with the user (grilling, wayfinder, design sessions) goes to GitHub issues instead.
 ---
 
 # Agent Tasks
@@ -56,6 +56,18 @@ EOF
 ```
 
 `--outcome failed` parks the subtask as `paused`: its dependents stay blocked until the planner re-plans.
+
+## Reminders
+
+A reminder is a user task with dates, and needs no orchestration. Title it as the action the user takes; the brief is what they need in hand when it fires:
+
+```bash
+~/.agents/skills/agent-tasks/run.py create --title "<action>" --for-user [--scheduled <date>] [--due <date>] [--remind-at <YYYY-MM-DDTHH:MM>]... <<'EOF'
+<context>
+EOF
+```
+
+`--scheduled` is when the user plans to do it, `--due` the deadline; each takes `YYYY-MM-DD` or `YYYY-MM-DDTHH:MM`. Each `--remind-at` notifies "Reminder: <title>" at that local time, but only while Obsidian desktop is running; one that comes due while it is closed never shows. Pair a reminder with `--scheduled` so the task shows in the calendar and agenda views.
 
 ## Reading
 
