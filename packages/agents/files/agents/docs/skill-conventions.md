@@ -1,6 +1,8 @@
-# Tool storage
+# Skill conventions
 
-Where a tool or skill you build keeps its files. Use the same paths on every OS so people and agents find them the same way.
+## Storage
+
+Where a skill you build, and the runtime behind it, keeps its files. Use the same paths on every OS so people and agents find them the same way.
 
 | Kind | Who writes it | Delete it? | Location |
 |---|---|---|---|

@@ -21,7 +21,7 @@
 - For experimenting with source code, you can pull the repo to `~/sandbox` after checking its existence. If it exists, pull the latest changes first.
 - For agent-managed tools, helper artifacts, small task-local environments, or temporary installs needed to complete a task, prefer `~/.agents/tools`.
 - Store durable agent artifacts under `~/.agents/artifacts/`; use `~/.agents/artifacts/outputs/<project>/YYYY-MM-DD/<task-slug>/` for generated task outputs, including research reports and investigation evidence.
-- When building a tool or skill that persists files, follow `~/.agents/docs/tool-storage.md`.
+- When building a skill that persists files, follow the storage section of `~/.agents/docs/skill-conventions.md`.
 - Use a consistent project name across branches and worktrees; use `_general` for work without a project or spanning multiple projects.
 - Use repo-local ignored artifact directories when project commands generate or consume those files, following the project's conventions.
 - Store maintained project knowledge in the repo's `./docs/` directory: accepted decisions, current architecture, supported behavior, and reusable guidance. Distill accepted findings into docs; retain evidence in artifacts.
