@@ -67,7 +67,7 @@ A reminder is a user task with dates, and needs no orchestration. Title it as th
 EOF
 ```
 
-`--scheduled` is when the user plans to do it, `--due` the deadline; each takes `YYYY-MM-DD` or `YYYY-MM-DDTHH:MM`. Reach for `--remind-before-scheduled` and `--remind-before-due` first (`15m`, `2h`, `1d`, or `0m` for on time): they follow the date when the user reschedules. A date without a time counts as midnight, so give it a time when the reminder should fire during the day. `--remind-at` is for a moment tied to neither date; add `--scheduled` too so the task still shows in the calendar. Reminders fire only while Obsidian desktop is running; one that comes due while it is closed never shows.
+`--scheduled` is when the user plans to do it, `--due` the deadline; each takes `YYYY-MM-DD` or `YYYY-MM-DDTHH:MM`. Reach for `--remind-before-scheduled` and `--remind-before-due` first (`15m`, `2h`, `1d`, or `0m` for on time): they follow the date when the user reschedules. A date without a time counts as midnight, so give it a time when the reminder should fire during the day. `--remind-at` is for a moment tied to neither date; give the task a `--scheduled` or `--due` date too, or it stays off the calendar. Reminders fire only while Obsidian desktop is running; one that comes due while it is closed never shows.
 
 ## Reading
 
