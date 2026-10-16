@@ -26,8 +26,8 @@
         "-index.ts"
       ]
     },
-    "npm:pi-antigravity",
-    "npm:@xian0x5a/pi-durable-subagents"
+    "npm:@xian0x5a/pi-durable-subagents",
+    "npm:pi-provider-antigravity"
   ],
   "enabledModels": [
     "deepseek/deepseek-v4-pro",
