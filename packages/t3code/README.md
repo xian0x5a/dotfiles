@@ -8,7 +8,8 @@
 - On Linux the AppImage lands at `~/Applications/t3code.AppImage` with a desktop entry, icons, and a `~/.local/bin/t3code` link (see `scripts/install_appimage.sh`). The app's updater checks every few minutes and replaces that file in place with delta downloads, so dotman only installs it once.
 - Release asset names carry the version and there is no unversioned alias, so `scripts/latest_appimage_url.sh` reads the current file name from the release's per-arch manifest (`latest-linux.yml` or `latest-linux-arm64.yml`), the manifest the app itself updates from.
 - The AUR `t3code-bin` was rejected: it is current, but it unpacks the AppImage into `/opt`, which turns off the in-app updater and remote "Update server" from other clients, leaving updates to whenever pacman runs.
-- The standalone `t3` CLI (`curl … | sh` into `~/.local/bin`) is not installed. The desktop app runs its own server; install the CLI only for headless hosts or `t3 app`.
+- The `t3` CLI comes from the desktop app: Settings → `t3` command → Install links `t3` to `~/.t3/bin/t3`, a launcher the app rewrites on each start to run its bundled server. It stays at the app's version and updates with it, including through remote "Update server". Only one `t3` can come first on PATH, and the button refuses while another one does.
+- The standalone CLI (`curl … | sh`, unpacked into `~/.t3/runtime/versions` and linked at `~/.local/bin/t3`) is for headless hosts only. Run it there as `t3 service install` so remote updates work. On a desktop it duplicates the app and drifts from the app's version while sharing the same `~/.t3` database.
 
 ## Tracked config
 
