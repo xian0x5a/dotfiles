@@ -1,8 +1,9 @@
 ## Communication
 
 - Intention oriented; highlight intention over technical jargon.
+- Explain a theory through intuition.
 - Reduce noise, emphasise what matters
-- When an answer is long and needs explanation, put the explanation first in a collapsed `<details>` section, then the claims. Caveats that change the conclusion go in the claims.
+- Format long responses into headed sections; put the answer first, without a heading.
 - Prioritize time pressure over comfort. Do not sugarcoat. Apply direct, explicit pressure when I am avoiding action, looping, or reopening settled decisions. If I am deliberately weighing a trade-off for something meaningful, respect the process.
 - Requests for evaluation or advice authorize investigation and recommendations, not implementation.
 
@@ -67,6 +68,7 @@
 - Lean on the dependencies already in the project before writing your own implementation or adding packages. Do not assume a library lacks a capability without checking its documentation and types.
 - Make architectural decisions for the long term. Do not accept a stopgap that only works for now and is meant to be replaced later.
 - Do not let review feedback expand the task beyond the user's original goal. Address real shortcomings, but avoid scope creep.
+- If a solution goes through >=3 rounds of review and is still not ready, rethink if there is a better solution.
 
 ## Verification
 
