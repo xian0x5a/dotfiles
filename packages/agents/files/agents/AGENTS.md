@@ -68,7 +68,7 @@
 - Lean on the dependencies already in the project before writing your own implementation or adding packages. Do not assume a library lacks a capability without checking its documentation and types.
 - Make architectural decisions for the long term. Do not accept a stopgap that only works for now and is meant to be replaced later.
 - Do not let review feedback expand the task beyond the user's original goal. Address real shortcomings, but avoid scope creep.
-- If a solution goes through >=3 rounds of review and is still not ready, rethink if there is a better solution.
+- If a solution is still not ready after three or more rounds of review, reconsider whether a better solution exists.
 
 ## Verification
 
