@@ -94,6 +94,7 @@ Applies to non-trivial changes.
 - Delegate when it saves time, improves quality, or keeps low-value intermediate details out of the main context.
 - Use an independent agent for an outside perspective, such as a second opinion.
 - Set subagent timeouts or budgets only when requested or required; keep them generous.
+- Set every subagent's model and reasoning effort explicitly from its role, following `~/.agents/docs/subagent-routing.md`.
 - Avoid multiple agents working on tasks with overlapping scopes, which can cause undesired high context inefficiency.
 
 ## Python Related

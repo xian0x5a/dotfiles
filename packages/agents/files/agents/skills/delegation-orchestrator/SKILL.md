@@ -42,20 +42,14 @@ Review/fix loops stop at the first good stopping point: acceptance met, remainin
 
 The key idea is that orchestrator should use a good model while delegating work to cheaper ones with just enough intelligence, except for asking an advisor which should be a smarter/bigger model.
 
+Pick model tier and thinking level per role from `~/.agents/docs/subagent-routing.md`.
+
 ## Thinking Level
 
 Choose the right level of thinking level that is just sufficient for the delegated task. Higher thinking is not automatically better; it costs more, slows work, and can produce over-analysis when the task mainly needs faithful execution.
 
 Parent decides thinking level from task role, ambiguity, instruction detail, task length, and harm profile.
 
-### Default Heuristic
-
-- `low`: repetitive, extractive, or mechanical work where correctness comes from following explicit inputs, not inventing judgment.
-- `medium`: bounded analysis or implementation with some local choices, but clear acceptance criteria and enough context.
-- `high` or `xhigh`: broad review, ambiguous debugging, architecture/product/security decisions, problem solving, innovations, long horizon tasks where instructions cannot cover every edge, analysis or final synthesis/judgment.
-
 Break long tasks into smaller tasks before raising thinking. If a task remains broad after decomposition, use higher thinking because the delegate must fill gaps responsibly.
 
 Smaller/simpler tasks should generally use lower thinking levels. More detailed instructions or an exec plan usually lowers required thinking; missing details, unclear trade-offs, or high-stakes consequences raise it.
-
-One exception is when using cheaper models, where higher thinking levels are preferred to compensate the loss in performance.
