@@ -12,7 +12,7 @@ Heuristic reference for routing each subagent by role to a model tier and effort
 | Advisor: second opinion on a decision                         | frontier   | `high` and up |
 
 - Review sits above the implementation it checks: implementer mistakes get caught downstream, a reviewer's miss ships silently. When a change needs several reviewers, spread them across model families.
-- Running a smaller tier than listed: raise effort one level.
+- Running a smaller tier than listed: only a `⁺` model, with effort raised one level.
 - Retry after a failure: one step up, tier first, then effort. `max` is the last resort for a challenging task that already failed.
 - Families without a level (e.g. no `max`): use the nearest.
 - Stay at or below the parent's effort; exceed it only as advisor or last-resort retry, and name which in the handoff.
@@ -25,8 +25,10 @@ Resolve a tier to an available model at delegation time (`orchestrator_capabilit
 | ---------- | ---------------------- |
 | escalation | Fable                  |
 | frontier   | Opus                   |
-| standard   | Sonnet, DeepSeek Flash |
-| small      | Haiku, DeepSeek Flash  |
+| standard   | Sonnet                 |
+| small      | Haiku, DeepSeek Flash⁺ |
+
+`⁺` marks a model that can stand in for the tier above when effort is raised one level.
 
 Escalation models cost more than frontier without being reliably stronger; reach them by retry or as advisor, not as a first pick.
 
