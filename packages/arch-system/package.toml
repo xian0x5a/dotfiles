@@ -26,6 +26,16 @@ path = "/etc/mkinitcpio.conf"
 source = "files/etc/tmpfiles.d/tmp.conf"
 path = "/etc/tmpfiles.d/tmp.conf"
 
+[targets.f_etc_zram_generator_conf]
+source = "files/etc/systemd/zram-generator.conf"
+path = "/etc/systemd/zram-generator.conf"
+
+[targets.f_etc_zram_generator_conf.hooks]
+post_push = [
+  'sudo systemctl daemon-reload',
+  'sudo systemctl restart systemd-zram-setup@zram0',
+]
+
 [targets.f_etc_locale_gen]
 source = "files/etc/locale.gen"
 path = "/etc/locale.gen"
