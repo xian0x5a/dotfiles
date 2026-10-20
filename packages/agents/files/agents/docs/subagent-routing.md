@@ -11,7 +11,7 @@ Heuristic reference for routing each subagent by role to a model tier and effort
 | Final review of high-stakes changes; debugging without a lead | frontier   | `xhigh`       |
 | Advisor: second opinion on a decision                         | frontier   | `high` and up |
 
-- Review sits above the implementation it checks: implementer mistakes get caught downstream, a reviewer's miss ships silently. When one round runs several reviewers on the same change (e.g. a majority vote), draw each from a different model family: same-family reviewers share blind spots, so their agreement counts for less.
+- Give review a tier at or above the implementation it checks: implementer mistakes get caught downstream, a reviewer's miss ships silently. When one round runs several reviewers on the same change (e.g. a majority vote), draw each from a different model family: same-family reviewers share blind spots, so their agreement counts for less.
 - Running a smaller tier than listed: only a `⁺` model, with effort raised one level.
 - Retry after a failure: one step up, tier first, then effort. `max` is the last resort for a challenging task that already failed.
 - Families without a level (e.g. no `max`): use the nearest.
