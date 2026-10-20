@@ -1,4 +1,10 @@
 {
+  "providerModelPreferences": {
+    "pi": {
+      "hiddenModels": [],
+      "modelOrder": []
+    }
+  },
   "storageCleanup": {
     "worktreeAfterDays": 8,
     "worktreeOnMerge": true,
@@ -27,6 +33,10 @@
           "acp"
         ]
       }
+    },
+    "codex": {
+      "driver": "codex",
+      "enabled": true
     }
   }
 }
