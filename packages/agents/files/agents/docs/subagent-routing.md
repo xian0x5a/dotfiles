@@ -2,14 +2,14 @@
 
 Heuristic reference for routing each subagent by role to a model tier and effort. The parent may pick a higher tier for a listed role when the task needs it.
 
-| Role                                                               | Tier     | Effort        |
-| ------------------------------------------------------------------ | -------- | ------------- |
-| Mechanical search, extraction, reformatting                        | small    | `low`         |
-| Implementation or tests: brief covers it, or gaps are routine      | standard | `medium`      |
-| Implementation where gaps need expertise and errors may pass tests | frontier | `high`        |
-| Code review                                                        | frontier | `high`        |
-| Final review of high-stakes changes; debugging without a lead      | frontier | `xhigh`       |
-| Advisor: second opinion on a decision                              | frontier | `high` and up |
+| Role                                                                         | Tier     | Effort        |
+| ---------------------------------------------------------------------------- | -------- | ------------- |
+| Mechanical search, extraction, reformatting                                  | small    | `low`         |
+| Implementation or tests: instructions/ExecPlan cover it, or gaps are routine | standard | `medium`      |
+| Implementation where gaps need expertise and errors may pass tests           | frontier | `high`        |
+| Code review                                                                  | frontier | `high`        |
+| Final review of high-stakes changes; debugging without a lead                | frontier | `xhigh`       |
+| Advisor: second opinion on a decision                                        | frontier | `high` and up |
 
 - Give review a tier at or above the implementation it checks: implementer mistakes get caught downstream, a reviewer's miss ships silently.
 - Running a smaller tier than listed: only a `⁺` model, with effort raised one level.
