@@ -2,13 +2,21 @@ description = "T3 Code desktop app for driving local coding agents"
 
 [vars.t3code]
 # Onboarding completion and dismissed update notices are per-machine state,
-# not preferences. Favorite models churn with day-to-day model picks.
-client_settings_selectors = ["onboardingCompletedAt", "dismissedProviderUpdateNotificationKeys", "favorites"]
+# not preferences. Favorites and provider model preferences (hidden models,
+# model order) churn with day-to-day model picks.
+client_settings_selectors = [
+  "onboardingCompletedAt",
+  "dismissedProviderUpdateNotificationKeys",
+  "favorites",
+  "providerModelPreferences",
+]
 # The legacy-migration marker, per-project overrides keyed by locally generated
 # project ids, and device onboarding/hosts are per-machine state. Favorites,
-# default and text-generation model picks churn with day-to-day model choice.
+# provider model preferences, and the default and text-generation model picks
+# churn with day-to-day model choice.
 server_settings_selectors = [
   "favorites",
+  "providerModelPreferences",
   "defaultModelSelection",
   "textGenerationModelSelection",
   "projectSettingsFolded",
