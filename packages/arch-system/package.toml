@@ -22,6 +22,10 @@ path = "/etc/makepkg.conf"
 source = "files/etc/mkinitcpio.conf"
 path = "/etc/mkinitcpio.conf"
 
+[targets.f_etc_tmpfiles_tmp_conf]
+source = "files/etc/tmpfiles.d/tmp.conf"
+path = "/etc/tmpfiles.d/tmp.conf"
+
 [targets.f_etc_locale_gen]
 source = "files/etc/locale.gen"
 path = "/etc/locale.gen"
