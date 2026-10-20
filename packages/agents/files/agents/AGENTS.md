@@ -15,13 +15,13 @@
 ## Disk Operations
 
 - Use soft deletion instead of `rm`, e.g. `trash-put` (Linux)
-- Exception: use `rm` in temp dirs (`/tmp`, `/var/tmp`, `$XDG_RUNTIME_DIR`)
+- Exception: use `rm` in temp dirs (`/tmp`, `/var/tmp`)
 - Avoid recursive searches of large directories like `$HOME`; bound any that are necessary with a timeout
 
 ## Storage Locations
 
-- For small disposable files, probes, or transient scratch data on this machine, prefer `/tmp` or `$XDG_RUNTIME_DIR` when appropriate instead of writing into regular project or user directories.
-- For large disposable data (venvs, CUDA/ML deps, models, datasets, builds; >~100 MB), use `/var/tmp`: `/tmp` and `$XDG_RUNTIME_DIR` are RAM-backed.
+- For small disposable files, probes, or transient scratch data on this machine, prefer `/tmp` instead of writing into regular project or user directories.
+- For large disposable data (venvs, CUDA/ML deps, models, datasets, builds; >~100 MB), use `/var/tmp`: `/tmp` is RAM-backed.
 - For experimenting with source code, you can pull the repo to `~/sandbox` after checking its existence. If it exists, pull the latest changes first.
 - For agent-managed tools, helper artifacts, small task-local environments, or temporary installs needed to complete a task, prefer `~/.agents/tools`.
 - Store durable agent artifacts under `~/.agents/artifacts/`; use `~/.agents/artifacts/outputs/<project>/YYYY-MM-DD/<task-slug>/` for generated task outputs, including research reports and investigation evidence.
