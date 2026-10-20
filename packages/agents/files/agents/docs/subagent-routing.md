@@ -21,13 +21,15 @@ Heuristic reference for routing each subagent by role to a model tier and effort
 
 Resolve a tier to an available model at delegation time (`orchestrator_capabilities` or the harness's model list).
 
-| Tier       | Examples |
-| ---------- | -------- |
-| escalation | Fable    |
-| frontier   | Opus     |
-| standard   | Sonnet   |
-| small      | Haiku    |
+| Tier       | Examples               |
+| ---------- | ---------------------- |
+| escalation | Fable                  |
+| frontier   | Opus                   |
+| standard   | Sonnet, DeepSeek Flash |
+| small      | Haiku, DeepSeek Flash  |
 
 Escalation models cost more than frontier without being reliably stronger; reach them by retry or as advisor, not as a first pick.
 
-When this list misses an available model or names a retired one, suggest an update to the user.
+## Staleness
+
+This doc is stale when any pick in it needed more than one retry to succeed, or the tier list misses an available model or names a retired one. Then suggest an update to the user, naming the role, the pick that failed, and the pick that worked.
