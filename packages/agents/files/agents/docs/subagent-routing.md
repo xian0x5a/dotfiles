@@ -14,7 +14,7 @@ Heuristic reference for routing each subagent by role to a model tier and effort
 - Give review a tier at or above the implementation it checks: implementer mistakes get caught downstream, a reviewer's miss ships silently.
 - Running a smaller tier than listed: only a `⁺` model, with effort raised one level.
 - Retry after a failure: one step up, tier first, then effort. `max` is the last resort for a challenging task that already failed.
-- Families without a level (e.g. no `max`): use the nearest.
+- Families without a level (e.g. no `max`): use the nearest; on a tie, round up.
 - Stay at or below the parent's effort; exceed it only as advisor or last-resort retry, and name which in the handoff.
 
 ## Tiers
