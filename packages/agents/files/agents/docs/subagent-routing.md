@@ -21,12 +21,12 @@ Heuristic reference for routing each subagent by role to a model tier and effort
 
 Resolve a tier to an available model at delegation time (`orchestrator_capabilities` or the harness's model list).
 
-| Tier       | Examples               |
-| ---------- | ---------------------- |
-| escalation | Fable                  |
-| frontier   | Opus                   |
-| standard   | Sonnet                 |
-| small      | Haiku, DeepSeek Flash⁺ |
+| Tier       | Examples                         |
+| ---------- | -------------------------------- |
+| escalation | Fable                            |
+| frontier   | Opus                             |
+| standard   | Sonnet                           |
+| small      | Haiku, GPT Luna, DeepSeek Flash⁺ |
 
 `⁺` marks a model that can stand in for the tier above when effort is raised one level.
 
