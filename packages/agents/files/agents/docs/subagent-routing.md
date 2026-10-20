@@ -32,4 +32,4 @@ Escalation models cost more than frontier without being reliably stronger; reach
 
 ## Staleness
 
-This doc is stale when any pick in it needed more than one retry to succeed, or the tier list misses an available model or names a retired one. Then suggest an update to the user, naming the role, the pick that failed, and the pick that worked.
+This doc is stale when you judge a pick in it a poor fit for a case, such as one that took repeated retries, or the tier list misses an available model or names a retired one. Then suggest an update to the user, naming the role, the pick that failed, and the pick that worked.
