@@ -51,9 +51,6 @@
   "pi-select-patch": {
     "anchorMode": "tolerant"
   },
-  "extensions": [
-    "+extensions/pi-openrouter-controls/index.ts"
-  ],
   "fullscreenScrollbar": "always",
   "retry": {
     "enabled": true
