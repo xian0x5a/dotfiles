@@ -9,11 +9,11 @@ Heuristic reference for routing each subagent by role to a model tier and effort
 | Implementation where gaps need expertise and errors may pass tests       | frontier | `high`        |
 | Code review                                                              | frontier | `high`        |
 | Final review of high-stakes changes; debugging without a lead            | frontier | `xhigh`       |
-| Advisor: second opinion on a decision                                    | frontier | `high` and up |
+| Advisor: second opinion on a decision                                    | advisor  | `high` and up |
 
 - Give review a tier at or above the implementation it checks: implementer mistakes get caught downstream, a reviewer's miss ships silently.
 - Running a smaller tier than listed: only a `⁺` model, with effort raised one level.
-- Retry after a failure: one step up, tier first, then effort. `max` is the last resort for a challenging task that already failed.
+- Retry after a failure: one step up, tier first (up to frontier), then effort. `max` is the last resort for a challenging task that already failed. When retries keep failing, asking the advisor to diagnose before the next attempt often helps more than another run.
 - Families without a level (e.g. no `max`): use the nearest; on a tie, round up.
 - Stay at or below the parent's effort; exceed it only as advisor or last-resort retry, and name which in the handoff.
 
@@ -23,14 +23,14 @@ Resolve a tier to an available model at delegation time (`orchestrator_capabilit
 
 | Tier       | Examples                         |
 | ---------- | -------------------------------- |
-| escalation | Fable                            |
+| advisor    | Fable                            |
 | frontier   | Opus                             |
 | standard   | Sonnet                           |
 | small      | Haiku, GPT Luna, DeepSeek Flash⁺ |
 
 `⁺` marks a model that can stand in for the tier above when effort is raised one level.
 
-Escalation models cost more than frontier without being reliably stronger; reach them by retry or as advisor, not as a first pick.
+Advisor models cost more than frontier without being reliably stronger; their value is an independent read, so they fit advice best: a short question in, a short answer back. Prefer an advisor that differs from the parent's model.
 
 ## Staleness
 
