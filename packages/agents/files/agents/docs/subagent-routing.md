@@ -30,7 +30,7 @@ Resolve a tier to an available model at delegation time (`orchestrator_capabilit
 
 `⁺` marks a model that can stand in for the tier above when effort is raised one level.
 
-Advisor models cost more than frontier without being reliably stronger; their value is an independent read, so they fit advice best: a short question in, a short answer back. Prefer an advisor that differs from the parent's model.
+Advisor models are larger, so they carry broader knowledge, but they cost more than frontier without being reliably stronger at carrying out tasks. Their value is that knowledge plus an independent read, so they fit advice best: a short question in, a short answer back. Prefer an advisor that differs from the parent's model.
 
 ## Staleness
 
