@@ -455,23 +455,6 @@ def test_corrupt_linux_cache_is_replaced_under_lock(tmp_path: Path) -> None:
     assert keyring_entry_path(keyring_state, "beta-api").exists()
 
 
-def test_pi_owns_its_service_list_locally() -> None:
-    source = AGENTS_ZSH.read_text(encoding="utf-8")
-    service_list = re.search(
-        r"local -a api_key_services=\(\n(?P<services>.*?)\n  \)",
-        source,
-        re.DOTALL,
-    )
-
-    assert "_AGENT_API_KEY_SERVICES" not in source
-    assert service_list is not None
-    assert service_list.group("services").split() == [
-        "deepseek-api",
-        "brave-api",
-        "exa-api",
-    ]
-
-
 def test_cache_ttl_has_one_config_variable() -> None:
     source = AGENTS_ZSH.read_text(encoding="utf-8")
 

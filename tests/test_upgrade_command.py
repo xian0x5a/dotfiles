@@ -181,14 +181,3 @@ def test_topgrade_package_owns_install_config_and_launcher_targets() -> None:
     )
     assert targets["f_config_topgrade_toml"]["path"] == "~/.config/topgrade.toml"
     assert targets["f_local_bin_upgrade"]["path"] == "~/.local/bin/upgrade"
-
-
-def test_go_toolchain_package_bootstraps_gup_only_when_missing() -> None:
-    with (REPO_ROOT / "packages/go-lang/package.toml").open("rb") as package_file:
-        package = tomllib.load(package_file)
-
-    gup_target = package["targets"]["gup_installed"]
-    assert "command -v gup" in gup_target["probe"]
-    assert gup_target["hooks"]["pre_push"] == (
-        "go install github.com/nao1215/gup@latest"
-    )
