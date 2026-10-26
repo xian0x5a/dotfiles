@@ -321,11 +321,15 @@ def command_create(args: argparse.Namespace) -> None:
     print(write_new_task_file(directory, render_new_task(args.title, args.parent, args.blocked_by, brief, args.for_user, user_schedule)))
 
 
+def require_agent_owned(task: Task) -> None:
+    if not task.is_agent_owned:
+        raise TaskError(f"Task {task.stem} is not agent-owned; change the user's tasks in TaskNotes.")
+
+
 def command_edit(args: argparse.Namespace) -> None:
     directory = tasks_dir()
     task = load_task(args.task)
-    if not task.is_agent_owned:
-        raise TaskError(f"Task {task.stem} is not agent-owned; change the user's tasks in TaskNotes.")
+    require_agent_owned(task)
     require_tasks_exist(directory, "Parent", [args.parent] if args.parent else [])
     require_tasks_exist(directory, "Blocker", args.add_blocked_by)
     if task.stem in [args.parent, *args.add_blocked_by]:
@@ -366,6 +370,7 @@ def command_claim(args: argparse.Namespace) -> None:
 
 def command_finish(args: argparse.Namespace) -> None:
     task = load_task(args.task)
+    require_agent_owned(task)
     if task.status != "in-progress":
         raise TaskError(f"Task {task.stem} is {task.status}, not in-progress.")
     if RESULT_HEADING not in task.body:
