@@ -10,12 +10,12 @@ A continuously rendering compositor therefore grows without bound.
 - Upstream report: [615.78.08: glFenceSync leaks host memory, never
   freed](https://forums.developer.nvidia.com/t/615-78-08-glfencesync-leaks-host-memory-never-freed/385726).
 - `perf(tty): drop per-texture GL fences` in `niri-custom-git`
-  (`10d2a7f1`) removed Smithay's per-texture fences and cut the rate from
-  roughly 900 MB/day to roughly 110 MB/day. The rest comes from per-frame
-  explicit-sync fences and offscreen render targets, which niri cannot drop
-  without giving up explicit sync.
+  (`10d2a7f1`, since reverted in `c98f080b`) removed Smithay's per-texture
+  fences and cut the rate from roughly 900 MB/day to roughly 110 MB/day. The
+  rest came from per-frame explicit-sync fences and offscreen render targets,
+  which niri cannot drop without giving up explicit sync.
 - Observed on 2026-10-26: niri at 1.39 GB `RssAnon` after 12.5 days uptime on
-  the patched build.
+  that patched build.
 
 ## The switch
 
@@ -62,6 +62,9 @@ the growth in seconds if the variable is dropped from the environment.
 - NVIDIA ships a fix: drop `__GL_4718a5` from `session.env` and re-measure.
 - A driver update no longer honours the name: the leak returns silently, so
   re-check `RssAnon` after major driver bumps.
-- If the switch proves durable, the `10d2a7f1` fence patch in
-  `niri-custom-git` can be reverted to drop fork drift. Keep it until then;
-  it is independent and still saves GL calls.
+- The `10d2a7f1` fence patch was reverted in `c98f080b` (`niri-custom-git`).
+  Don't resurrect it as a leak fallback: it only masked part of the leak, and
+  without `Capability::Fencing` smithay falls back to `glFinish` on every
+  textured draw once any `EGLContext` is shared. With this switch doing the
+  work, the patch is an option, not an asset — and re-applying it is one
+  `git revert` if the switch ever dies.
