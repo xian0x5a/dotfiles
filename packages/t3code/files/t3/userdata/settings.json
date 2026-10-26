@@ -8,6 +8,7 @@
     "logsAfterDays": 8
   },
   "compactIdleThreads": true,
+  "idleCompaction": "beforeCacheExpires",
   "autoResumeLimitedThreads": true,
   "sidebarAutoSettleOnMerge": false,
   "providerInstances": {
