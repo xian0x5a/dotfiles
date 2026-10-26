@@ -10,6 +10,8 @@ The package also installs the community [dsh-TUI](https://github.com/ccch1mneyyy
 
 DSH 0.2 composes every profile from its bundles, then the profile's own `~/.dsh/profiles/<profile>/cordis.patch.yml`, then the home patch. The home patch therefore gives the Web UI and dsh-TUI the same providers. Each row replaces the target entry's whole config, so the home patch holds only rows every profile mounts (`llm-pi-ai` comes from `dsh-base`). Edit providers in the package file, not in **Settings → Models**: DSH refuses form writes that the home patch overrides. Settings forms write to the active profile's patch instead, so the default model, permission preset, theme, and onboarding state stay live-local per profile and host.
 
+The home patch also sets `compaction-basic` `thresholdRatio: 0.33`, so automatic compaction starts at about 330k tokens on 1M-token models instead of the default 0.8. It takes effect only in the `acp` profile that T3 Code launches. In `web` and `dsh-tui` that top-level row stays disabled, and each agent preset mounts its own copy that a patch cannot address without restating the whole preset, so those presets keep the default. DSH's ACP adapter does not advertise commands, so T3 shows no manual compact action; automatic compaction still runs.
+
 The tracked `opencode-go` route serves the OpenCode Go subscription from dsh's installed pi-ai catalog, so its models and their mixed wire protocols follow the installed dsh release. It reads the `OPENCODE_API_KEY` credential reference.
 
 DSH 0.2 imports a leftover `~/.dsh/settings.yaml` once into the active profile and renames it to `settings.yaml.imported`; this package no longer writes that file.

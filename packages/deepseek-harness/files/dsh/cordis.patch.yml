@@ -7,3 +7,8 @@
       opencode-go:
         displayName: OpenCode Go
         apiKeyEnv: OPENCODE_API_KEY
+# Only the ACP profile (T3) mounts this top-level row live; Web presets nest their own copies, which patches cannot address.
+- id: compaction-basic
+  config:
+    # compaction-basic only accepts a window fraction; 0.33 of a 1M-token window triggers at about 330k tokens.
+    thresholdRatio: 0.33
