@@ -8,6 +8,7 @@
 from __future__ import annotations
 
 import argparse
+import itertools
 import json
 import os
 import re
@@ -22,7 +23,6 @@ import yaml
 VAULT_NAME = os.environ.get("AGENT_TASKS_VAULT", "knowledgebase")
 TASKS_RELATIVE_DIR = os.environ.get("AGENT_TASKS_VAULT_RELATIVE_DIR", "Effects/Tasks")
 AGENT_OWNER = "agent"
-CREATE_ATTEMPTS = 5
 PLAIN_SCALAR = re.compile(r"^[\w.:+\-]+$")
 FRONTMATTER = re.compile(r"\A---\n(.*?\n)---\n", re.DOTALL)
 RESULT_HEADING = "## Result"
@@ -271,16 +271,17 @@ def render_new_task(
 
 
 def write_new_task_file(directory: Path, content: str) -> Path:
-    # Names are second-resolution timestamps; exclusive create keeps concurrent creators from overwriting each other.
-    for _ in range(CREATE_ATTEMPTS):
-        path = directory / f"{datetime.now():%Y-%m-%d-%H%M%S}.md"
+    # Names are second-resolution timestamps. Parallel creates within one second take the next free
+    # numeric suffix; exclusive create keeps concurrent creators from overwriting each other.
+    base_stem = f"{datetime.now():%Y-%m-%d-%H%M%S}"
+    for collision_count in itertools.count():
+        path = directory / (f"{base_stem}-{collision_count}.md" if collision_count else f"{base_stem}.md")
         try:
             with path.open("x", encoding="utf-8") as task_file:
                 task_file.write(content)
             return path
         except FileExistsError:
-            time.sleep(1)
-    raise TaskError(f"Could not pick a free task file name in {directory}.")
+            continue
 
 
 def command_print_path(_: argparse.Namespace) -> None:
