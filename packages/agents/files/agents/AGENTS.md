@@ -19,6 +19,7 @@
 
 - Use soft deletion instead of `rm`, e.g. `trash-put` (Linux)
 - Exception: use `rm` in temp dirs (`/tmp`, `/var/tmp`)
+  - Give `rm` absolute paths (globs included); a relative target after `cd` forces a manual approval prompt
 - Avoid recursive searches of large directories like `$HOME`; bound any that are necessary with a timeout
 
 ## Storage Locations
