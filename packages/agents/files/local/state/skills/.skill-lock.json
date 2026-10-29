@@ -180,8 +180,7 @@
       "source": "mattpocock/skills",
       "sourceType": "github",
       "sourceUrl": "https://github.com/mattpocock/skills.git",
-      "skillPath": "skills/engineering/implement-spec/SKILL.md",
-      "pluginName": "mattpocock-skills"
+      "skillPath": "skills/engineering/implement-spec/SKILL.md"
     },
     "archify": {
       "source": "tt-a1i/archify",
