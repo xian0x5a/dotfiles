@@ -33,6 +33,16 @@
     "codex": {
       "driver": "codex",
       "enabled": true
+    },
+    "claudeAgent": {
+      "driver": "claudeAgent",
+      "environment": [
+        {
+          "name": "CLAUDE_CODE_ENTRYPOINT",
+          "value": "t3-code",
+          "sensitive": false
+        }
+      ]
     }
   }
 }
