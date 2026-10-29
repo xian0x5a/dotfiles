@@ -60,5 +60,13 @@
     "grid-max-children-enabled": "False",
     "grid-max-children-per-line": "20",
     "overview-enabled": "False",
-    "widget-color-mode": "default"
+    "widget-color-mode": "default",
+    "gpu": "",
+    "interface-sounds-enabled": "False",
+    "interface-sounds-theme": "cloud",
+    "interface-sounds-volume": "50",
+    "interface-sounds-custom-navigate": "",
+    "interface-sounds-custom-confirm": "",
+    "interface-sounds-custom-cancel": "",
+    "interface-sounds-custom-warning": ""
 }
