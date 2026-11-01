@@ -1,5 +1,5 @@
 ---
-status: open
+status: done
 ---
 
 # keyd custom Git build
@@ -51,7 +51,7 @@ any layer change can write to a device keyd has not yet seen disappear.
 
 ## Work Plan
 
-1. Fork branch `fix/held-key-recovery` in `~/Projects/keyd`, on upstream `f564288`:
+1. Fork clone at `~/Projects/keyd`, on upstream `f564288`:
    - cherry-pick PR rvaiya/keyd#1319 (the reload use-after-free);
    - add a real-kernel test, written independently, before the fix;
    - extract the evdev-to-KEYD code translation, needed in both directions;
@@ -89,6 +89,8 @@ any layer change can write to a device keyd has not yet seen disappear.
 - [x] Package built from a local copy of the branch; file list matches the official
       package, service unit and sysusers file identical.
 - [x] Independent review. Its findings are addressed in the fork and here.
+- [x] `xian0x5a/keyd` created, fix on its `master`, tags present.
+- [x] Installed through dotman; running daemon logs `v2.6.0 (2bcdee1)`.
 
 ## Surprises & Discoveries
 
@@ -127,4 +129,19 @@ Scored on a 1 to 5 scale, weights summing to 100%:
 
 ## Outcomes & Retrospective
 
-Pending.
+Shipped. `keyd-custom-git 2.6.0.r7.g2bcdee1` replaced the official package through
+`dotman push`, the first run of paru's conflict path on this machine. The running
+daemon reports the fork's commit, all devices were re-grabbed, and the mapper stayed
+up.
+
+- The real-kernel test passes all 6 scenarios. Each failed first for the expected
+  reason, except `normal_sequence`, which is a guard.
+- Removing a virtual keyboard holding Left Ctrl on the live daemon gave `+control`
+  then `-control`, with no `lost key-up` line, so keyd won the race. It proves the
+  live path works, not that the race path did. Only the device test forces that.
+- The root cause is still unproven. A recurrence is the real test, and
+  `packages/keyd-custom-git/README.md` says how to read it.
+
+The review earned its cost: the first version would have traded a latch for a daemon
+exit on any config with `layer_indicator`, and no device-level test could have seen
+it. The fix also removes the same crash from the upstream path.
