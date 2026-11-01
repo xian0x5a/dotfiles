@@ -1,0 +1,3 @@
+[misc]
+[commands]
+"Keyd custom build" = "dotman --no-confirm push keyd-custom-git.keyd_custom_git_update"

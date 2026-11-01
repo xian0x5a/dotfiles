@@ -28,11 +28,11 @@ if [ ! -f "$pkgbuild_path" ]; then
 fi
 
 if ! command -v pacman >/dev/null 2>&1; then
-    printf 'error: pacman is required to probe niri-custom-git installation state\n' >&2
+    printf 'error: pacman is required to probe custom package installation state\n' >&2
     exit 127
 fi
 if ! command -v git >/dev/null 2>&1; then
-    printf 'error: git is required to probe niri-custom-git upstream state\n' >&2
+    printf 'error: git is required to probe custom package upstream state\n' >&2
     exit 127
 fi
 

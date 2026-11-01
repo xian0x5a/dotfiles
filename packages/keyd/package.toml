@@ -1,5 +1,9 @@
 description = "keyd keyboard remapping config and user service"
 
+depends = [
+  "keyd-custom-git",
+]
+
 [targets.f_etc_keyd_default_conf]
 source = "files/etc/keyd/default.conf"
 path = "/etc/keyd/default.conf"
@@ -13,9 +17,6 @@ source = "files/config/keyd/app.conf"
 path = "~/.config/keyd/app.conf"
 
 [hooks]
-pre_push = [
-  "{{ INSTALL }} keyd",
-]
 post_push = [
   '{{ ENSURE_SYSTEMD }} system keyd.service',
   '{{ ENSURE_SYSTEMD }} user keyd-application-mapper.service',

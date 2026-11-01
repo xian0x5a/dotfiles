@@ -1,0 +1,30 @@
+description = "Custom Git build of keyd"
+
+depends = [
+  "topgrade",
+]
+
+[targets.keyd_custom_git_install]
+sync_policy = "push-only"
+probe = '{{ PROBE_PACKAGES_INSTALLED }} keyd-custom-git'
+
+# pacman leaves the old daemon running, and a build that is not running fixes nothing.
+# Skip the restart without systemd, as in a chroot during a fresh install.
+[targets.keyd_custom_git_install.hooks]
+pre_push = '{{ INSTALL_CUSTOM_PACKAGE }} "$DOTMAN_PACKAGE_ROOT/packaging/arch/keyd-custom-git"'
+post_push = '[ ! -d /run/systemd/system ] || sudo systemctl try-restart keyd.service'
+
+# The upstream check is a network round trip, so it runs only when this target
+# is selected by name (Topgrade does), not on every plan.
+[targets.keyd_custom_git_update]
+sync_policy = "push-only"
+on_demand = true
+probe = '{{ PROBE_CUSTOM_GIT_PACKAGE_UPDATE }} "$DOTMAN_PACKAGE_ROOT/packaging/arch/keyd-custom-git"'
+
+[targets.keyd_custom_git_update.hooks]
+pre_push = '{{ INSTALL_CUSTOM_PACKAGE }} "$DOTMAN_PACKAGE_ROOT/packaging/arch/keyd-custom-git"'
+post_push = '[ ! -d /run/systemd/system ] || sudo systemctl try-restart keyd.service'
+
+[targets.f_config_topgrade_d_keyd_custom_git_toml]
+source = "files/config/topgrade.d/keyd-custom-git.toml"
+path = "~/.config/topgrade.d/keyd-custom-git.toml"

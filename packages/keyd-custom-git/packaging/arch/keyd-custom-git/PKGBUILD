@@ -1,0 +1,53 @@
+# Maintainer: Xian <>
+
+_pkgname=keyd
+pkgname=keyd-custom-git
+# Seed required by makepkg; pkgver() recalculates from the Git checkout during build.
+pkgver=dummy
+pkgrel=1
+pkgdesc="A key remapping daemon for Linux (custom Git build)"
+arch=(x86_64 aarch64)
+url="https://github.com/xian0x5a/keyd"
+license=(MIT)
+makedepends=(git)
+optdepends=(
+  'python: for the keyd-application-mapper utility'
+  'perl: for the optional dump-xkb-config script'
+)
+provides=("${_pkgname}=${pkgver}")
+conflicts=(${_pkgname} ${_pkgname}-git)
+# Keep symbols: this daemon runs under a keyboard, and a symbolized coredump is how
+# the reload crash was placed.
+options=(!debug !strip)
+source=("${_pkgname}::git+${url}.git")
+b2sums=('SKIP')
+
+pkgver() {
+  cd "${_pkgname}"
+  git describe --long --tags --abbrev=7 | sed 's/\([^-]*-g\)/r\1/;s/-/./g;s/^v//'
+}
+
+build() {
+  cd "${_pkgname}"
+
+  make PREFIX=/usr
+}
+
+check() {
+  cd "${_pkgname}"
+
+  # Not `make test`: t/run.sh re-executes through sudo.
+  make test-io
+}
+
+package() {
+  cd "${_pkgname}"
+
+  make PREFIX=/usr DESTDIR="${pkgdir}" FORCE_SYSTEMD=1 install
+
+  # check() leaves this in bin/, and the install target copies all of bin/.
+  rm -f "${pkgdir}/usr/bin/test-io"
+
+  install -Dm755 scripts/dump-xkb-config scripts/generate_xcompose -t "${pkgdir}/usr/share/keyd/"
+  install -Dm644 LICENSE -t "${pkgdir}/usr/share/licenses/${_pkgname}/"
+}
