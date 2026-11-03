@@ -32,7 +32,7 @@
     },
     "codex": {
       "driver": "codex",
-      "enabled": true
+      "enabled": false
     },
     "claudeAgent": {
       "driver": "claudeAgent",

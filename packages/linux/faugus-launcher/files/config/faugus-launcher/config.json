@@ -2,7 +2,7 @@
     "default-prefix": "~/Games/prefixes",
     "mangohud": "False",
     "gamemode": "False",
-    "default-runner": "Proton-CachyOS Latest",
+    "default-runner": "Proton-Wineland Latest",
     "lossless-location": "",
     "discrete-gpu": "False",
     "system-tray": "True",
@@ -11,7 +11,7 @@
     "start-maximized": "False",
     "start-fullscreen": "False",
     "smaller-banners": "False",
-    "wayland-driver": "False",
+    "wayland-driver": "True",
     "enable-hdr": "False",
     "language": "en_US",
     "logging-warning": "True",
@@ -68,5 +68,7 @@
     "interface-sounds-custom-navigate": "",
     "interface-sounds-custom-confirm": "",
     "interface-sounds-custom-cancel": "",
-    "interface-sounds-custom-warning": ""
+    "interface-sounds-custom-warning": "",
+    "discord-rpc-enabled": "False",
+    "auto-hide-enabled": "False"
 }
