@@ -10,7 +10,10 @@
   "permissions": {
     "allow": [],
     "deny": [
-      "EnterPlanMode"
+      "EnterPlanMode",
+      "Artifact",
+      "ArtifactComments",
+      "ArtifactData"
     ],
     "defaultMode": "default"
   },
@@ -50,5 +53,10 @@
   "editorMode": "vim",
   "inputNeededNotifEnabled": true,
   "agentPushNotifEnabled": true,
-  "switchModelsOnFlag": false
+  "switchModelsOnFlag": false,
+  "skillOverrides": {
+    "artifact-design": "off",
+    "artifact-capabilities": "off",
+    "artifact-diagramming": "off"
+  }
 }
