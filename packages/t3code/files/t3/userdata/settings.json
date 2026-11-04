@@ -42,7 +42,10 @@
           "value": "t3-code",
           "sensitive": false
         }
-      ]
+      ],
+      "config": {
+        "launchArgs": "--system-prompt-file ~/.claude/system-prompt.md"
+      }
     }
   }
 }
