@@ -11,7 +11,7 @@ Managed Claude Code configuration, helpers, and status-line renderers. Domain te
 
 ## Skill overrides
 
-`skillOverrides` also works per skill on the claude.ai account-synced `anthropic-skills:*` skills (they are not plugin skills). Off: the ones that need claude.ai, the desktop app or Chrome-extension tools absent here (`artifact-emulator`, `docs`, `google-workspace`, `morning`, `import-memory`, `computer-use`, `built-in-browser`, `chrome-browser`), and the ones that duplicate agent-neutral skills (`deep-research` → `research`, `skill-creator` → `writing-for-agents`). The browser ones also compete with the `browser` skill for routing. `pdf`, `docx`, `xlsx` and `pptx` stay on.
+`skillOverrides` also works per skill on the claude.ai account-synced `anthropic-skills:*` skills (they are not plugin skills). Off: the ones that need claude.ai, the desktop app or Chrome-extension tools absent here (`artifact-emulator`, `docs`, `google-workspace`, `morning`, `import-memory`, `computer-use`, `built-in-browser`, `chrome-browser`), and `skill-creator`, which duplicates the agent-neutral `writing-for-agents`. The browser ones also compete with the `browser` skill for routing. `deep-research` (parallel researchers plus a report writer, for broad multi-source questions), `pdf`, `docx`, `xlsx` and `pptx` stay on.
 
 ## System prompt
 

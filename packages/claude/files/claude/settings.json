@@ -70,7 +70,6 @@
     "anthropic-skills:computer-use": "off",
     "anthropic-skills:built-in-browser": "off",
     "anthropic-skills:chrome-browser": "off",
-    "anthropic-skills:deep-research": "off",
     "anthropic-skills:skill-creator": "off"
   }
 }
