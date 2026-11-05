@@ -362,7 +362,11 @@ claude() {
       return 1
   fi
 
-  command claude --dangerously-skip-permissions "$@"
+  # Replace the built-in system prompt with the one T3 Code also uses (claude
+  # package). Claude Code resolves `~` against the working directory, so pass
+  # an absolute path.
+  command claude --dangerously-skip-permissions \
+    --system-prompt-file "$HOME/.claude/system-prompt.md" "$@"
 }
 
 claudex() {
