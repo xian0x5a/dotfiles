@@ -17,6 +17,8 @@ Managed Claude Code configuration, helpers, and status-line renderers. Domain te
 
 `~/.claude/system-prompt.md` replaces Claude Code's built-in prompt when passed as `--system-prompt-file`. T3 Code passes it through its Claude `launchArgs` (tracked in the `t3code` package). The flag needs an absolute path: Claude Code resolves `~`, `$HOME` and relative paths against the working directory, so `t3code` syncs that file with the home-path helpers. It keeps only the rules that have no other source: harness and untrusted-content boundaries, confirming outward-facing actions, and faithful reporting. Tool schemas, CLAUDE.md, skills and MCP instructions load regardless of this prompt. Check the effect by capturing a request with `CLAUDE_CODE_ENABLE_TELEMETRY=1 OTEL_LOG_RAW_API_BODIES=file:<dir>`.
 
+No setting replaces the prompt for plain `claude` runs. Instead, `CLAUDE_CODE_SIMPLE_SYSTEM_PROMPT=1` in `settings.json` `env` selects Claude Code's shorter built-in prompt (measured: system ~31.7k → ~10.4k characters). The variable also abbreviates the tool descriptions (~40.5k → ~24.3k), which shrinks T3 sessions too even though their prompt comes from the file. A session keeps the prompt it was created with until it compacts, so changes reach only new conversations.
+
 ## claude.ai connectors
 
 `ENABLE_CLAUDEAI_MCP_SERVERS=false` stops Claude Code from loading connectors from the claude.ai account (Claude Docs). They reconnect repeatedly and re-inject long instructions, and Claude Docs steers toward the denied `Artifact` tool. Remove the variable to use a claude.ai connector here.
