@@ -14,7 +14,8 @@
       "EnterPlanMode",
       "Artifact",
       "ArtifactComments",
-      "ArtifactData"
+      "ArtifactData",
+      "Workflow"
     ],
     "defaultMode": "default"
   },
@@ -58,6 +59,17 @@
   "skillOverrides": {
     "artifact-design": "off",
     "artifact-capabilities": "off",
-    "artifact-diagramming": "off"
+    "artifact-diagramming": "off",
+    "workflow-authoring": "off",
+    "anthropic-skills:artifact-emulator": "off",
+    "anthropic-skills:docs": "off",
+    "anthropic-skills:morning": "off",
+    "anthropic-skills:import-memory": "off",
+    "anthropic-skills:google-workspace": "off",
+    "anthropic-skills:computer-use": "off",
+    "anthropic-skills:built-in-browser": "off",
+    "anthropic-skills:chrome-browser": "off",
+    "anthropic-skills:deep-research": "off",
+    "anthropic-skills:skill-creator": "off"
   }
 }

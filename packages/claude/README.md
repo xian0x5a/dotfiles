@@ -7,6 +7,11 @@ Managed Claude Code configuration, helpers, and status-line renderers. Domain te
 - `EnterPlanMode` is denied so Claude never switches into plan mode on its own; planning follows the ExecPlan workflow instead. Enter plan mode manually with Shift+Tab when wanted.
 - `ExitPlanMode` stays allowed: it is how Claude presents a plan for approval and leaves plan mode. Denying it traps a manually started plan-mode session.
 - `Artifact`, `ArtifactComments` and `ArtifactData` are denied. They publish pages to claude.ai, which this setup does not use; T3 Code renders HTML locally. A bare tool name in `deny` drops the tool's schema from the request, about 38k characters for `Artifact` alone. `skillOverrides` turns off the bundled `artifact-*` skills that only drive that tool.
+- `Workflow` is denied. It runs only on explicit opt-in, was never called in past transcripts, and loads its ~5k-character schema every turn; built-in tools cannot be made deferred. `Agent`, T3's `delegate_task` and the `delegation-orchestrator` skill cover delegation. `workflow-authoring` is off with it.
+
+## Skill overrides
+
+`skillOverrides` also works per skill on the claude.ai account-synced `anthropic-skills:*` skills (they are not plugin skills). Off: the ones that need claude.ai, the desktop app or Chrome-extension tools absent here (`artifact-emulator`, `docs`, `google-workspace`, `morning`, `import-memory`, `computer-use`, `built-in-browser`, `chrome-browser`), and the ones that duplicate agent-neutral skills (`deep-research` → `research`, `skill-creator` → `writing-for-agents`). The browser ones also compete with the `browser` skill for routing. `pdf`, `docx`, `xlsx` and `pptx` stay on.
 
 ## System prompt
 
