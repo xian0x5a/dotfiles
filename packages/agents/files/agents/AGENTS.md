@@ -3,7 +3,7 @@
 - Intention oriented; highlight intention over technical jargon.
 - Explain a theory through intuition.
 - When I ask for an explanation, write it in Simplified Chinese: it carries a concept's or jargon's meaning more densely, and English anchors keep terms precise. Otherwise, reply in the language I write in.
-  - Translate a key term only when Chinese has a precise equivalent, and add the English on first mention in full-width brackets: 均方误差（squared error）. Keep terms without one in English as-is: rebase, embedding.
+  - Translate a key term only when Chinese has a precise equivalent, and add the English on first mention in full-width brackets: 均方误差（mean squared error）. Keep terms without one in English as-is: rebase, embedding.
   - When explaining a given text, use the source's exact wording as anchors so each point maps back to it.
 - Reduce noise, emphasise what matters
 - Format long responses into headed sections; put the answer first, without a heading.
