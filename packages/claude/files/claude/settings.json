@@ -50,7 +50,7 @@
   "alwaysThinkingEnabled": true,
   "autoCompactWindow": 300000,
   "tui": "fullscreen",
-  "autoMemoryEnabled": true,
+  "autoMemoryEnabled": false,
   "skipDangerousModePermissionPrompt": true,
   "theme": "dark",
   "editorMode": "vim",
