@@ -8,12 +8,13 @@ Heuristic reference for routing each subagent by role to a model tier and effort
 | Implementation or tests: instructions/plan cover it, or gaps are routine | standard | `medium`      |
 | Implementation where gaps need expertise and errors may pass tests       | frontier | `high`        |
 | Code review                                                              | frontier | `high`        |
-| Final review of high-stakes changes; debugging without a lead            | frontier | `xhigh`       |
-| Advisor: second opinion on a decision                                    | advisor  | `high` and up |
+| Final review of high-stakes changes; debugging without a lead            | apex     | `high`        |
+| Advisor: second opinion on a decision                                    | apex     | `high` and up |
 
 - Give review a tier at or above the implementation it checks: implementer mistakes get caught downstream, a reviewer's miss ships silently.
+- Advisor and final review buy an independent read: prefer a model that differs from the parent's. Keep an advisor exchange short: a question in, an answer back.
 - Running a smaller tier than listed: only a `⁺` model, with effort raised one level.
-- Retry after a failure: one step up, tier first (up to frontier), then effort. `max` is the last resort for a challenging task that already failed. When retries keep failing, asking the advisor to diagnose before the next attempt often helps more than another run.
+- Retry after a failure: first give the subagent a way to check its own work (a test, a build, a script) if it had none. Then one step up: raise effort while below `high`, otherwise move up a tier and drop effort one level. Effort buys more thought, a tier buys knowledge and skill: when the failure shows the model lacked those, move up a tier directly. Effort above `high` is the last resort, once apex at `high` has failed.
 - Families without a level (e.g. no `max`): use the nearest; on a tie, round up.
 - Stay at or below the parent's effort; exceed it only as advisor or last-resort retry, and name which in the handoff.
 
@@ -23,14 +24,14 @@ Resolve a tier to an available model at delegation time (`orchestrator_capabilit
 
 | Tier       | Examples                         |
 | ---------- | -------------------------------- |
-| advisor    | Fable                            |
+| apex       | Fable                            |
 | frontier   | Opus                             |
 | standard   | Sonnet                           |
 | small      | Haiku, GPT Luna, DeepSeek Flash⁺ |
 
 `⁺` marks a model that can stand in for the tier above when effort is raised one level.
 
-Advisor models are larger, so they carry broader knowledge, but they cost more than frontier without being reliably stronger at carrying out tasks. Their value is that knowledge plus an independent read, so they fit advice best: a short question in, a short answer back. Prefer an advisor that differs from the parent's model.
+Apex models are the strongest at carrying out the hardest work and cost more per token than frontier. Reach for apex where frontier would need effort above `high`: past `high`, one more effort level costs about as much as the next tier and buys less.
 
 ## Staleness
 
