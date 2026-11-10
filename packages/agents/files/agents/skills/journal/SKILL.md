@@ -1,7 +1,7 @@
 ---
 name: journal
 description: >
-  Create and search Obsidian journal entries; use the journal directory as a searchable memory store when agents need prior context. Use when there is meaningful delta with future review value; create automatically before final response when criteria pass, without waiting for the user to ask. Triggers include a consequential life event or plan (money, health, legal, career, major purchase or move), meaningful progress, a mistake made and corrected, a reusable lesson or insight, a corrected assumption, the user challenging or re-correcting the agent, a consequential decision, a workflow improvement, a resolved blocker, a useful idea or reframe, a surprise that changes understanding or direction, debugging with 3+ back-and-forth turns that resolves a concrete cause, source/docs/code inspection revealing non-obvious external tool behavior, or a reusable project policy/workflow decision.
+  The user's diary and a secondary memory for agents: short dated notes in the user's Obsidian vault, re-read by the user and searchable by agents that need prior context. Write one entry before the final response, without being asked, when the session leaves an insight, a decision with its reason, or a life event worth re-reading months later. Examples: a corrected belief, a non-obvious cause or tool behavior, a workflow change, a health, money or career event. Progress on ongoing work and results the project already records stay with the project; journal them only at a turning point.
 ---
 
 # Journal
