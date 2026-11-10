@@ -34,8 +34,10 @@
       "driver": "codex",
       "enabled": false
     },
-    "claudeAgent": {
+    "claudeLean": {
       "driver": "claudeAgent",
+      "displayName": "Claude (lean prompt)",
+      "enabled": true,
       "config": {
         "launchArgs": "--system-prompt-file ~/.claude/system-prompt.md"
       }

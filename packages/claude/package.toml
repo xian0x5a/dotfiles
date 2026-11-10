@@ -38,8 +38,8 @@ chmod = "600"
 render = '{{ JSON_RENDER_HOME_PATHS }} --selector-type remove --selectors {{ vars.claude.claude_json_selectors|shell_args }}'
 capture = '{{ JSON_CAPTURE_HOME_PATHS }} --selector-type retain --selectors {{ vars.claude.claude_json_selectors|shell_args }}'
 
-# Replacement system prompt, passed via `--system-prompt-file ~/.claude/system-prompt.md`
-# in T3 Code's Claude launch args and the zsh `claude` wrapper (shell package).
+# Lean replacement system prompt, passed via `--system-prompt-file ~/.claude/system-prompt.md`
+# by T3 Code's `claudeLean` provider instance and the zsh `claude-lean` function (shell package).
 [targets.f_claude_system_prompt_md]
 source = "files/claude/system-prompt.md"
 path = "~/.claude/system-prompt.md"

@@ -362,11 +362,14 @@ claude() {
       return 1
   fi
 
-  # Replace the built-in system prompt with the one T3 Code also uses (claude
-  # package). Claude Code resolves `~` against the working directory, so pass
-  # an absolute path.
-  command claude --permission-mode bypassPermissions \
-    --system-prompt-file "$HOME/.claude/system-prompt.md" "$@"
+  command claude --permission-mode bypassPermissions "$@"
+}
+
+# Claude Code with the lean replacement prompt (claude package) instead of the
+# built-in one, for when a built-in rule gets in the way. Claude Code resolves
+# `~` against the working directory, so pass an absolute path.
+claude-lean() {
+  claude --system-prompt-file "$HOME/.claude/system-prompt.md" "$@"
 }
 
 claudex() {
