@@ -17,10 +17,10 @@ Three files carry the run, and together they are your memory across context rese
 ## 1. Setup (with the human)
 
 1. Read `autoresearch.md`. If it is missing, draft it with the human from [`contract-template.md`](contract-template.md). Every field is filled, and the metric is a command that prints one number.
-2. Agree on a tag (date-based, e.g. `nov11`), then create `autoresearch/<tag>`. The branch must be new. Its starting commit is the **base**; note its hash. If the human's checkout is in use, work in a worktree under `./.worktrees/`.
+2. Agree on a tag (date-based, e.g. `nov11`), then create `autoresearch/<tag>`. The branch must be new. If the human's checkout is in use, work in a worktree under `./.worktrees/`.
 3. Read every file in the mutable and frozen surfaces, so that you know the code you will change and the referee you cannot.
 4. Create `results.tsv` with the header `commit	metric	status	description`, plus one column per soft constraint the contract tracks. Add `results.tsv` and `run.log` to `.git/info/exclude`.
-5. Run the unchanged base three times, logging each with status `baseline` and the base hash. The **best** is the median of these runs, and the **noise floor** is their spread (max − min). Both move with every keep (see the keep rule). A metric that comes out identical each time is deterministic, and its noise floor stays zero.
+5. Run the unchanged code three times, logging each with status `baseline`. The **best** is the median of these runs, and the **noise floor** is their spread (max − min). Both move with every keep (see the keep rule). A metric that comes out identical each time is deterministic, and its noise floor stays zero.
 6. Confirm with the human that the session can run unattended: permission prompts are off, the machine stays awake, and the budget multiplied by the expected experiment count fits the time they have.
 
 Setup is done when the contract is complete, the baseline and noise floor are in the ledger, and the human has said go. This is the last time you ask the human anything.
@@ -32,7 +32,7 @@ From here on you are autonomous. The loop lives inside one turn, and each experi
 1. **Orient.** Read `git log --oneline` on the branch and the tail of the ledger. After a context reset, rebuild your state from the contract, the ledger, and the branch.
 2. **Pick one idea** and apply it to the mutable surface. Keep it to one idea, so the ledger can attribute the result.
 3. **Commit** the mutable surface only (`git add <mutable paths>`), with a message describing the idea.
-4. **Check the referee** before spending a run: `git diff --quiet <base> -- <frozen paths>` must succeed, and the gate command, if the contract has one, must pass. A failure is a `crash`.
+4. **Gate**: if the contract has a gate, run it before spending a run. A failure is a `crash`.
 5. **Run** `timeout <hard limit> <run command> > run.log 2>&1`. All output goes to the log, because a flooded context ends a long run early. If the harness caps foreground commands below the hard limit, run the command in the background and wait for it.
 6. **Measure** with the contract's metric command. An empty result means a crash; go to §3.
 7. **Decide** by the keep rule below, then log one ledger row: the short commit hash, the metric (the single run, or the median when you confirmed), `keep`, `discard` or `crash`, and the idea in a few words.
