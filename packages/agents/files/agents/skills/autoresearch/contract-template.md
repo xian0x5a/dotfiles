@@ -17,6 +17,10 @@ Copy this file to `autoresearch.md` at the repo root and fill in every field wit
 - Command: `<e.g. grep '^val_bpb:' | awk '{print $2}'>`; it reads the run log on stdin and prints one number
 - Direction: <lower | higher> is better
 
+## Judging
+- <how a win is told from noise and from search overfitting, e.g. "median of 3 runs against their spread", "3 seeds, gain beyond 2 SE", or "per the repo's protocol: <link>">
+- Held-out data: <data the loop never reads, read once at the stop; or "none" with the reason>
+
 ## Mutable surface
 - <files or directories the agent may change>
 
