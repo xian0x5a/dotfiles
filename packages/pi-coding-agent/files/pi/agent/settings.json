@@ -3,16 +3,10 @@
     {
       "source": "npm:@howaboua/pi-codex-conversion",
       "extensions": [
-        "+dist/index.js"
+        "-dist/index.js"
       ]
     },
     "npm:@firstpick/pi-extension-btw",
-    {
-      "source": "git:github.com/xian0x5a/pi-durable-subagents",
-      "extensions": [
-        "-src/index.ts"
-      ]
-    },
     "npm:@r3b1s/pi-vim-stash",
     {
       "source": "npm:@howaboua/pi-codex-web-run",
@@ -55,10 +49,6 @@
   "retry": {
     "enabled": true
   },
-  "skills": [
-    "-skills/code-review/SKILL.md",
-    "-skills/implement/SKILL.md"
-  ],
   "fullscreenCopyOnSelect": false,
   "defaultTools": [
     "+codemode"
