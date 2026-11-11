@@ -30,11 +30,13 @@ EOF
 
 Add `--parent <task stem>` to nest it under another task, the user's or an agent's.
 
+Add `--priority <value>` to rank it; values come from the vault's TaskNotes settings (`low`, `normal`, `high`), and it defaults to the vault's default. `ready` lists the highest priority first.
+
 Add `--for-user` when only the user can do the step. It lands on the user's own board, not the Agent Board; block the agent subtasks that wait on it with `--blocked-by`, and they become ready once the user marks it done. Agents cannot edit or finish it afterwards.
 
 `create` prints the new task path; its file stem is the task id for `--parent`, `--blocked-by`, `edit`, `claim`, and `finish`.
 
-Re-wire an existing agent subtask with `edit`, which mirrors `gh issue edit` (`--parent`, `--remove-parent`, `--add-blocked-by`, `--remove-blocked-by`). The user's own tasks are theirs to change in TaskNotes.
+Re-wire an existing agent subtask with `edit`, which mirrors `gh issue edit` (`--parent`, `--remove-parent`, `--add-blocked-by`, `--remove-blocked-by`, `--priority`). The user's own tasks are theirs to change in TaskNotes.
 
 ```bash
 ~/.agents/skills/agent-tasks/run.py edit <task stem> --parent <task stem> --add-blocked-by <task stem>,<task stem>

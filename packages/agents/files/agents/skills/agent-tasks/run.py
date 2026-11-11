@@ -16,12 +16,14 @@ import sys
 import time
 from dataclasses import dataclass
 from datetime import datetime, timedelta
+from functools import cache
 from pathlib import Path
 
 import yaml
 
 VAULT_NAME = os.environ.get("AGENT_TASKS_VAULT", "knowledgebase")
 TASKS_RELATIVE_DIR = os.environ.get("AGENT_TASKS_VAULT_RELATIVE_DIR", "Effects/Tasks")
+TASKNOTES_SETTINGS_RELATIVE_PATH = ".obsidian/plugins/tasknotes/data.json"
 AGENT_OWNER = "agent"
 PLAIN_SCALAR = re.compile(r"^[\w.:+\-]+$")
 FRONTMATTER = re.compile(r"\A---\n(.*?\n)---\n", re.DOTALL)
@@ -65,6 +67,11 @@ class Task:
         return [unwrap_link(blocker["uid"]) for blocker in self.fields.get("blockedBy", [])]
 
     @property
+    def priority(self) -> str:
+        # TaskNotes may omit the key, which it reads as the vault's default priority.
+        return self.fields.get("priority", tasknotes_settings()["defaultTaskPriority"])
+
+    @property
     def title(self) -> str:
         aliases = self.fields.get("aliases", self.stem)
         return aliases[0] if isinstance(aliases, list) else aliases
@@ -96,6 +103,21 @@ def discover_vault_path() -> Path:
 
 def tasks_dir() -> Path:
     return discover_vault_path() / TASKS_RELATIVE_DIR
+
+
+@cache
+def tasknotes_settings() -> dict:
+    # Priorities are user-configurable in TaskNotes, so read them from the vault rather than hardcoding a list.
+    return json.loads((discover_vault_path() / TASKNOTES_SETTINGS_RELATIVE_PATH).read_text(encoding="utf-8"))
+
+
+def priority_weights() -> dict[str, int]:
+    return {priority["value"]: priority["weight"] for priority in tasknotes_settings()["customPriorities"]}
+
+
+def require_known_priority(priority: str) -> None:
+    if priority not in priority_weights():
+        raise TaskError(f"Unknown priority {priority!r}; this vault's TaskNotes priorities are: {', '.join(priority_weights())}.")
 
 
 def unwrap_link(link: str) -> str:
@@ -246,7 +268,13 @@ def read_stdin(name: str) -> str:
 
 
 def render_new_task(
-    title: str, parent_stem: str | None, blocker_stems: list[str], brief: str, for_user: bool, user_schedule: dict[str, str | list]
+    title: str,
+    priority: str,
+    parent_stem: str | None,
+    blocker_stems: list[str],
+    brief: str,
+    for_user: bool,
+    user_schedule: dict[str, str | list],
 ) -> str:
     timestamp = now_timestamp()
     # The user's own tasks carry no owner; their board shows every task not owned by agents.
@@ -258,7 +286,7 @@ def render_new_task(
         "type: task\n"
         f"{owner_line}"
         "status: open\n"
-        "priority: normal\n"
+        f"priority: {yaml_scalar(priority)}\n"
         f"dateCreated: {timestamp}\n"
         f"dateModified: {timestamp}\n"
         f"aliases: {json.dumps(title, ensure_ascii=False)}\n"
@@ -298,6 +326,8 @@ def command_create(args: argparse.Namespace) -> None:
     directory = tasks_dir()
     require_tasks_exist(directory, "Parent", [args.parent] if args.parent else [])
     require_tasks_exist(directory, "Blocker", args.blocked_by)
+    priority = args.priority or tasknotes_settings()["defaultTaskPriority"]
+    require_known_priority(priority)
     anchor_dates = {"scheduled": args.scheduled, "due": args.due}
     lead_times = {"scheduled": args.remind_before_scheduled, "due": args.remind_before_due}
     for anchor, leads in lead_times.items():
@@ -319,7 +349,7 @@ def command_create(args: argparse.Namespace) -> None:
     if past_times:
         raise TaskError(f"Reminder time already passed: {min(past_times):{DATE_TIME_FORMAT}}")
     brief = read_stdin("Brief")
-    print(write_new_task_file(directory, render_new_task(args.title, args.parent, args.blocked_by, brief, args.for_user, user_schedule)))
+    print(write_new_task_file(directory, render_new_task(args.title, priority, args.parent, args.blocked_by, brief, args.for_user, user_schedule)))
 
 
 def require_agent_owned(task: Task) -> None:
@@ -335,6 +365,8 @@ def command_edit(args: argparse.Namespace) -> None:
     require_tasks_exist(directory, "Blocker", args.add_blocked_by)
     if task.stem in [args.parent, *args.add_blocked_by]:
         raise TaskError(f"Task {task.stem} cannot be its own parent or blocker.")
+    if args.priority:
+        require_known_priority(args.priority)
 
     fields = task.fields
     projects = fields.get("projects", [])
@@ -348,16 +380,20 @@ def command_edit(args: argparse.Namespace) -> None:
         kept_blockers = [entry for entry in fields.get("blockedBy", []) if unwrap_link(entry["uid"]) not in args.remove_blocked_by]
         kept_stems = {unwrap_link(entry["uid"]) for entry in kept_blockers}
         updates["blockedBy"] = kept_blockers + [blocker_entry(stem) for stem in dict.fromkeys(args.add_blocked_by) if stem not in kept_stems]
+    if args.priority:
+        updates["priority"] = args.priority
     if not updates:
-        raise TaskError("Nothing to edit; pass a relationship flag.")
+        raise TaskError("Nothing to edit; pass a relationship or priority flag.")
     update_frontmatter(task, {**updates, "dateModified": now_timestamp()})
 
 
 def command_ready(args: argparse.Namespace) -> None:
     tasks_by_stem = {task.stem: task for task in all_tasks()}
-    for task in tasks_by_stem.values():
-        if is_ready(task, tasks_by_stem):
-            print(f"{task.stem}\t{task.title}")
+    ready_tasks = [task for task in tasks_by_stem.values() if is_ready(task, tasks_by_stem)]
+    weights = priority_weights()
+    # Highest priority first so the dispatcher claims urgent work first; the stable sort keeps creation order within a priority.
+    for task in sorted(ready_tasks, key=lambda task: -weights[task.priority]):
+        print(f"{task.stem}\t{task.title}")
 
 
 def command_claim(args: argparse.Namespace) -> None:
@@ -394,6 +430,7 @@ def build_parser() -> argparse.ArgumentParser:
     create = commands.add_parser("create", help="Create an agent subtask, or a task for the user; brief on stdin; prints its path.")
     create.add_argument("--title", required=True)
     create.add_argument("--for-user", action="store_true", help="Create a task for the user on their board instead of an agent subtask.")
+    create.add_argument("--priority", help="Priority value from the vault's TaskNotes settings, such as low, normal, or high; defaults to the vault's default priority.")
     create.add_argument("--parent", metavar="TASK", help="Task file stem this becomes a subtask of; any owner.")
     create.add_argument("--blocked-by", type=task_stem_list, action="extend", default=[], metavar="TASKS", help="Blocking task file stems, comma-separated or repeated.")
     create.add_argument("--scheduled", type=task_date, metavar="DATE", help="With --for-user: when the user plans to do it, YYYY-MM-DD or YYYY-MM-DDTHH:MM.")
@@ -403,15 +440,16 @@ def build_parser() -> argparse.ArgumentParser:
     create.add_argument("--remind-before-due", type=reminder_lead_time, action="append", default=[], metavar="LEAD", help="With --due: notify this long before it, such as 15m, 2h, 1d, or 0m; repeatable.")
     create.set_defaults(handler=command_create)
 
-    commands.add_parser("ready", help="List open agent subtasks whose blockers are done, as 'stem<TAB>title'.").set_defaults(handler=command_ready)
+    commands.add_parser("ready", help="List open agent subtasks whose blockers are done, highest priority first, as 'stem<TAB>title'.").set_defaults(handler=command_ready)
 
-    edit = commands.add_parser("edit", help="Change an agent subtask's parent or blockers, mirroring `gh issue edit`.")
+    edit = commands.add_parser("edit", help="Change an agent subtask's parent, blockers, or priority, mirroring `gh issue edit`.")
     edit.add_argument("task", help="Task file stem.")
     parent = edit.add_mutually_exclusive_group()
     parent.add_argument("--parent", metavar="TASK", help="Set the parent task, replacing any previous one.")
     parent.add_argument("--remove-parent", action="store_true", help="Remove the parent task.")
     edit.add_argument("--add-blocked-by", type=task_stem_list, action="extend", default=[], metavar="TASKS", help="Add blocking tasks, comma-separated or repeated.")
     edit.add_argument("--remove-blocked-by", type=task_stem_list, action="extend", default=[], metavar="TASKS", help="Remove blocking tasks, comma-separated or repeated.")
+    edit.add_argument("--priority", help="Priority value from the vault's TaskNotes settings, such as low, normal, or high.")
     edit.set_defaults(handler=command_edit)
 
     claim = commands.add_parser("claim", help="Mark a ready subtask in-progress for a thread.")
