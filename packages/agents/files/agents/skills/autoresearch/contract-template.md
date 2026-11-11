@@ -14,7 +14,7 @@ Copy this file to `autoresearch.md` at the repo root and fill in every field wit
 - Hard limit: <e.g. 10 min wall clock; a longer run is killed and logged as a crash>
 
 ## Metric
-- Command: `<e.g. grep '^val_bpb:' run.log | awk '{print $2}'>`; it prints one number from run.log
+- Command: `<e.g. grep '^val_bpb:' | awk '{print $2}'>`; it reads the run log on stdin and prints one number
 - Direction: <lower | higher> is better
 
 ## Mutable surface
