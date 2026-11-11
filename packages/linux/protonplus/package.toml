@@ -1,0 +1,18 @@
+description = "Install ProtonPlus and keep Steam's compatibility tools updated in the background"
+
+[targets.protonplus_installed]
+sync_policy = "push-only"
+probe = '{{ PROBE_PACKAGES_INSTALLED }} protonplus'
+
+[targets.protonplus_installed.hooks]
+pre_push = "{{ INSTALL }} protonplus"
+
+# Reuses the gsettings package's INI sync so only the listed keys are tracked.
+# ProtonPlus writes and enables its own systemd user timer from these keys when its GUI starts.
+[targets.f_config_gsettings_protonplus_ini]
+source = "files/config/gsettings/protonplus.ini"
+path = "~/.config/gsettings/protonplus.ini"
+capture = '{{ UV_RUN }} "$DOTMAN_REPO_ROOT/packages/gsettings/scripts/gsettings_sync.py" "$DOTMAN_LIVE_PATH" --mode dump --template-file "$DOTMAN_REPO_PATH" --stdout'
+
+[targets.f_config_gsettings_protonplus_ini.hooks]
+post_push = '{{ UV_RUN }} "$DOTMAN_REPO_ROOT/packages/gsettings/scripts/gsettings_sync.py" "$DOTMAN_PACKAGE_ROOT/files/config/gsettings/protonplus.ini" --mode apply'

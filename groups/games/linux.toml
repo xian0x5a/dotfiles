@@ -1,1 +1,1 @@
-members = ["steam", "linux/faugus-launcher"]
+members = ["steam", "linux/faugus-launcher", "linux/protonplus"]
