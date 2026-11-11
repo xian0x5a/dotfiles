@@ -48,7 +48,7 @@
   },
   "feedbackDrafts": "off",
   "alwaysThinkingEnabled": true,
-  "autoCompactWindow": 300000,
+  "autoCompactWindow": 400000,
   "tui": "fullscreen",
   "autoMemoryEnabled": false,
   "skipDangerousModePermissionPrompt": true,
