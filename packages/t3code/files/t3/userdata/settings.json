@@ -36,7 +36,7 @@
     },
     "claudeLean": {
       "driver": "claudeAgent",
-      "displayName": "Claude (lean prompt)",
+      "displayName": "LeanClaude",
       "enabled": true,
       "config": {
         "launchArgs": "--system-prompt-file ~/.claude/system-prompt.md"
