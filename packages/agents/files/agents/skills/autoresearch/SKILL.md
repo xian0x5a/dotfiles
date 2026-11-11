@@ -10,7 +10,7 @@ Run research as a **ratchet**: try one idea at a time against a metric, keep it 
 
 ## The contract
 
-Before the loop, settle these with the human and write them down where a resumed run will find them (Karpathy's is `program.md`):
+Before the loop, settle these with the human and write them down in `autoresearch.md` at the repo root, where a resumed run will find them:
 
 - the goal, and the metric that measures it;
 - what you may change, and the **referee**: the evaluation, data and budget that make experiments comparable;
