@@ -10,12 +10,11 @@ Run research as a **ratchet**: try one idea at a time against a metric, keep it 
 
 ## The contract
 
-Find the repo's own research protocol first; it outranks this skill. Then settle these with the human and write them down in `autoresearch.md` at the repo root, where a resumed run will find them:
+Find the repo's own research protocol first; it outranks this skill. Then settle these with the human and write them down as `autoresearch.md` in the run's record (below), outside the repo; it stays fixed for the run, and a resumed run reads it first:
 
 - the goal, the metric that measures it, and what must stay true whatever the metric says (e.g. tests pass, no look-ahead, a memory cap);
 - what you may change, and the **referee**: the evaluation, data and budget that make experiments comparable;
 - how a win is judged (below);
-- where the record lives;
 - when to stop.
 
 Where the protocol says how to judge results, which data to hold out, who approves a read, or where findings go, the contract cites it.
@@ -24,7 +23,7 @@ Then run the baseline end to end while the human is still there, so whatever nee
 
 ## Principles
 
-- **Autonomy.** The human is asleep or away, so the loop runs until the stop condition, never pausing to ask whether to continue. What only the human can decide (a read their protocol reserves for approval, a broken referee) waits in the record, and the loop moves on to what it can do. Keep run output in log files rather than your context, so the run lasts. When ideas run out, find more: mine past results, combine near-misses, invert failures, read the references the code cites, try something more radical.
+- **Autonomy.** One goal gets one run; to go faster, run experiments in parallel inside it, sharing one record and one ratchet. The human is asleep or away, so the loop runs until the stop condition, never pausing to ask whether to continue. What only the human can decide (a read their protocol reserves for approval, a broken referee) waits in the record, and the loop moves on to what it can do. Keep run output in log files rather than your context, so the run lasts. When ideas run out, find more: mine past results, combine near-misses, invert failures, read the references the code cites, try something more radical.
 - **Real wins only.** The ratchet only moves forward, so a false win becomes the bar for every later experiment. Two things make false wins. One is noise: the metric moves by chance between runs, seeds or samples. The other is search overfitting: hundreds of reads of the same data make some idea win by chance. Guard against both in a way that fits the metric, for example:
   - noisy timings: repeat a candidate and compare medians against their spread;
   - seeded training: vary the seed, since rerunning one seed measures nothing;
