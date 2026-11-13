@@ -211,6 +211,13 @@
       "sourceType": "github",
       "sourceUrl": "https://github.com/xian0x5a/browser-skills.git",
       "skillPath": "skills/google-search/SKILL.md"
+    },
+    "frontend-design": {
+      "source": "anthropics/skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/anthropics/skills.git",
+      "skillPath": "skills/frontend-design/SKILL.md",
+      "pluginName": "example-skills"
     }
   },
   "dismissed": {
@@ -222,6 +229,7 @@
     "codex",
     "cursor",
     "droid",
+    "fx",
     "gemini-cli",
     "github-copilot",
     "kilo",
