@@ -41,14 +41,3 @@ path = "~/.codex/rules"
 [targets.d_codex_agents]
 source = "files/codex/agents"
 path = "~/.codex/agents"
-
-[targets.f_codex_hooks_json]
-source = "files/codex/hooks.json"
-path = "~/.codex/hooks.json"
-render = 'dotman rewrite home expand "$DOTMAN_REPO_PATH"'
-capture = 'dotman rewrite home collapse "$DOTMAN_LIVE_PATH"'
-
-[targets.f_codex_herdr_agent_state_sh]
-source = "files/codex/herdr-agent-state.sh"
-path = "~/.codex/herdr-agent-state.sh"
-chmod = "755"

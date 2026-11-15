@@ -52,10 +52,6 @@ path = "~/.claude/statusline.js"
 source = "files/claude/subagent-statusline.js"
 path = "~/.claude/subagent-statusline.js"
 
-[targets.d_claude_hooks]
-source = "files/claude/hooks"
-path = "~/.claude/hooks"
-
 # User-authored Claude Code subagents. Nothing else writes here, so the whole
 # directory is managed. The agent-neutral ~/.agents/agents use pi's format and
 # are not linked in. The source directory may be absent until the first agent.
