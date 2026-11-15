@@ -11,7 +11,7 @@
       "source": "kepano/obsidian-skills",
       "sourceType": "github",
       "sourceUrl": "https://github.com/kepano/obsidian-skills.git",
-      "skillPath": "skills/obsidian-cli/SKILL.md"
+      "skillPath": "plugins/obsidian/skills/obsidian-cli/SKILL.md"
     },
     "grill-me": {
       "source": "mattpocock/skills",
