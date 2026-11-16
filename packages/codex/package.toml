@@ -10,6 +10,7 @@ config_selectors = [
   "re:^mcp_servers\\.playwright\\.env$",
   "re:^marketplaces\\.openai-bundled$",
   "tui.model_availability_nux",
+  "tui.screen_reader_detection_done",
   "notice",
   "re:^notice\\.",
   "re:marketplaces.*",
