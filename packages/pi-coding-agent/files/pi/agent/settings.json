@@ -1,11 +1,5 @@
 {
   "packages": [
-    {
-      "source": "npm:@howaboua/pi-codex-conversion",
-      "extensions": [
-        "-dist/index.js"
-      ]
-    },
     "npm:@firstpick/pi-extension-btw",
     "npm:@r3b1s/pi-vim-stash",
     {
@@ -14,13 +8,6 @@
         "-index.ts"
       ]
     },
-    {
-      "source": "npm:@howaboua/pi-codex-imagegen",
-      "extensions": [
-        "-index.ts"
-      ]
-    },
-    "npm:@xian0x5a/pi-durable-subagents",
     "npm:pi-provider-antigravity"
   ],
   "enabledModels": [
