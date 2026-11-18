@@ -193,7 +193,7 @@
       "sourceType": "github",
       "sourceUrl": "https://github.com/xian0x5a/reasoning-graph.git",
       "skillPath": "skills/reasoning-graph/SKILL.md",
-      "commit": "891fc8c39ac0a07ca27484de4b9028c9910d83dd"
+      "commit": "3a5826c889ea75b6bd7a1d505f932f93cbb308a5"
     },
     "marimo-pair": {
       "source": "marimo-team/marimo-pair",
