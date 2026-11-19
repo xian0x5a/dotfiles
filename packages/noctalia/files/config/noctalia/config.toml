@@ -86,6 +86,7 @@ polkit_agent = true
 builtin = "Gruvbox"
 mode = "dark"
 source = "builtin"
+wallpaper_scheme = "m3-content"
 
     [theme.templates]
     builtin_ids = [ "gtk3", "gtk4", "kcolorscheme", "niri", "qt" ]
