@@ -16,7 +16,6 @@ Heuristic reference for routing each subagent by role to a model tier and effort
 - Running a smaller tier than listed: only a `⁺` model, with effort raised one level.
 - Retry after a failure: first give the subagent a way to check its own work (a test, a build, a script) if it had none. Then one step up: raise effort while below `high`, otherwise move up a tier and drop effort one level. Effort buys more thought, a tier buys knowledge and skill: when the failure shows the model lacked those, move up a tier directly. Effort above `high` is the last resort, once apex at `high` has failed.
 - Families without a level (e.g. no `max`): use the nearest; on a tie, round up.
-- Stay at or below the parent's effort; exceed it only as advisor or last-resort retry, and name which in the handoff.
 
 ## Tiers
 
