@@ -27,7 +27,7 @@ path = "~/.local/share/noctalia/plugins/pinned-window"
 
 [targets.noctalia_installed]
 sync_policy = "push-only"
-probe = "{{ PROBE_PACKAGES_INSTALLED }} noctalia-git"
+probe = "{{ PROBE_PACKAGES_INSTALLED }} noctalia"
 
 [targets.noctalia_installed.hooks]
-pre_push = "{{ INSTALL }} noctalia-git"
+pre_push = "{{ INSTALL }} noctalia"
