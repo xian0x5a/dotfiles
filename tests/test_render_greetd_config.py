@@ -75,7 +75,10 @@ user = "greeter"
     assert completed.returncode == 0, completed.stderr
 
     rendered = tomllib.loads(completed.stdout)
-    assert rendered["initial_session"]["command"] == "env AUTOLOGIN_SESSION=1 /usr/local/bin/greetd-start-session niri"
+    assert rendered["initial_session"]["command"] == (
+        "env AUTOLOGIN_SESSION=1 XDG_SESSION_DESKTOP=niri DESKTOP_SESSION=niri "
+        "/usr/local/bin/greetd-start-session niri"
+    )
     assert rendered["initial_session"]["user"] == "xian"
     assert rendered["default_session"]["command"] == "tuigreet"
 
@@ -100,7 +103,9 @@ user = "__PLACEHOLDER_GREETD_HOST_USER__"
 
     assert completed.returncode == 0, completed.stderr
     rendered = tomllib.loads(completed.stdout)
-    assert rendered["initial_session"]["command"] == "env AUTOLOGIN_SESSION=1 /usr/local/bin/start-sway"
+    assert rendered["initial_session"]["command"] == (
+        "env AUTOLOGIN_SESSION=1 XDG_SESSION_DESKTOP=sway DESKTOP_SESSION=sway /usr/local/bin/start-sway"
+    )
     assert rendered["initial_session"]["user"] == "xian"
 
 
@@ -138,5 +143,6 @@ user = "__PLACEHOLDER_GREETD_HOST_USER__"
     assert completed.returncode == 0, completed.stderr
     rendered = tomllib.loads(completed.stdout)
     assert rendered["initial_session"]["command"] == (
-        "env AUTOLOGIN_SESSION=1 /usr/local/bin/greetd-start-session missing-session"
+        "env AUTOLOGIN_SESSION=1 XDG_SESSION_DESKTOP=missing-session DESKTOP_SESSION=missing-session "
+        "/usr/local/bin/greetd-start-session missing-session"
     )

@@ -9,7 +9,7 @@ The greetd template does **not** hard-code the autologin command. By default,
 command using `{{ vars.desktop.session }}`:
 
 ```toml
-command = "env AUTOLOGIN_SESSION=1 /usr/local/bin/greetd-start-session <session>"
+command = "env AUTOLOGIN_SESSION=1 XDG_SESSION_DESKTOP=<session> DESKTOP_SESSION=<session> /usr/local/bin/greetd-start-session <session>"
 ```
 
 `packages/greetd/files/usr/local/bin/greetd-start-session` resolves
@@ -31,6 +31,14 @@ startup flags or session environment setup.
 Every rendered initial session is prefixed with `AUTOLOGIN_SESSION=1` so desktop
 sessions can distinguish greetd autologin from a user-selected greeter session.
 Niri uses this marker to lock immediately after autologin.
+
+The same prefix sets `XDG_SESSION_DESKTOP` and `DESKTOP_SESSION` to the session
+name (the `.desktop` stem), matching what tuigreet sets for a user-selected
+session. Naming the session is the display manager's job, and
+`[initial_session]` bypasses the greeter, so without this an autologin session
+has no `XDG_SESSION_DESKTOP` at all. Session launchers such as `niri-session`
+import it into the systemd user environment, where services such as Sunshine
+read it (Sunshine keys its portal restore token file by it).
 
 The same render step also fills other greetd-specific placeholders such as the
 autologin user.

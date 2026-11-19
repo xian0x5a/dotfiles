@@ -17,10 +17,18 @@ _DEFAULT_SESSION_LAUNCHER = "/usr/local/bin/greetd-start-session"
 _AUTOLOGIN_SESSION_ENV = "AUTOLOGIN_SESSION=1"
 
 
-def mark_autologin_session(command: str) -> str:
+def mark_autologin_session(command: str, session_name: str) -> str:
     # greetd initial_session logind metadata still reports the service as greetd,
     # so sessions need an explicit generic marker for autologin-only behavior.
-    return f"env {_AUTOLOGIN_SESSION_ENV} {command}"
+    # Display managers name the session; tuigreet sets these two to the session
+    # .desktop stem, but initial_session bypasses the greeter, so autologin
+    # sessions would otherwise lack them (Sunshine keys portal tokens by
+    # XDG_SESSION_DESKTOP, for example).
+    session_identity = shlex.quote(session_name)
+    return (
+        f"env {_AUTOLOGIN_SESSION_ENV} "
+        f"XDG_SESSION_DESKTOP={session_identity} DESKTOP_SESSION={session_identity} {command}"
+    )
 
 
 def resolve_session_command(
@@ -30,11 +38,11 @@ def resolve_session_command(
     session_launcher: str,
 ) -> str:
     if session_command is not None and session_command.strip():
-        return mark_autologin_session(session_command.strip())
+        return mark_autologin_session(session_command.strip(), session_name)
 
     # Keep render repo-pure. Desktop entries may be installed by pre_push hooks in
     # the same dotman run, so resolve their Exec= line at greetd login time.
-    return mark_autologin_session(f"{session_launcher} {shlex.quote(session_name)}")
+    return mark_autologin_session(f"{session_launcher} {shlex.quote(session_name)}", session_name)
 
 
 def collect_placeholder_paths(
