@@ -90,6 +90,9 @@ source = "builtin"
     [theme.templates]
     builtin_ids = [ "gtk3", "gtk4", "kcolorscheme", "niri", "qt" ]
 
+[wallpaper.default]
+path = "color:#262626"
+
 [widget.audio_visualizer]
 centered = false
 mirrored = false
