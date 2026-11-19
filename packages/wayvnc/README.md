@@ -1,6 +1,7 @@
 # WayVNC
 
-- Purpose: temporary/control-plane remote access to the active Wayland desktop, mainly to approve portal dialogs such as Sunshine XDG Portal capture.
+- Purpose: temporary/control-plane remote access to the active Wayland desktop, such as approving portal dialogs.
+  Sunshine's Niri portal share is pre-approved by dotman (`packages/linux/sunshine/docs/prep-niri.md`), so WayVNC is its fallback when that token stops matching.
 - Package: `packages/wayvnc`.
 - Services:
   - `~/.config/systemd/user/wayvnc.service`: raw VNC server on localhost.

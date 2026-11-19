@@ -16,7 +16,7 @@ Run directly inside a running Niri session:
 
 - `uv run packages/linux/sunshine/files/config/sunshine/sunshine-prep-niri.py do --width 1920 --height 1080 --fps 60 --scale auto`
 - optional: prevent idle actions while streaming with `--inhibit`
-- rendered Niri Sunshine config does **not** pass `--inhibit` by default: Niri uses `capture = wlr` on the `sunshine` headless output, while the default inhibitor is only for KMS capture to avoid DPMS error spam when outputs idle mid-stream
+- rendered Niri Sunshine config does **not** pass `--inhibit` by default: Niri captures the `sunshine` headless output through the ScreenCast portal (`capture = portal`), while the default inhibitor is only for KMS capture to avoid DPMS error spam when outputs idle mid-stream
 - optional: avoid Noctalia reacting during output hotplug churn with `--suspend-niri-shell`
 - Niri Sunshine config uses `--headless`; the fixed output name is `sunshine`
 - optional local Niri build: set `vars.niri.bin` in dotman local vars (use `~` for home-relative paths); the rendered Sunshine command exports it as `NIRI_BIN`, and the prep script uses that binary for `niri msg`
@@ -54,8 +54,9 @@ Run directly inside a running Niri session:
   load-config-file` can preserve transient IPC output state when disk `outputs`
   did not change, so config reload is not a reliable stream teardown primitive.
   Manual IPC cleanup is the reliable path.
-- `sunshine.conf` uses `capture = wlr` and `output_name = sunshine` for Niri
-  headless capture; non-Niri rendered configs use `capture = kms`.
+- `sunshine.conf` uses `capture = portal` and `output_name = sunshine` for Niri
+  headless capture (see Portal Capture below); Hyprland keeps `capture = wlr`
+  and other rendered configs use `capture = kms`.
 - The rendered Niri prep does not use `--solo`: physical outputs remain enabled
   across stream transitions so Wine/Xwayland clients do not receive monitor
   hotplug events. Stream start still focuses `sunshine`. Manual `--solo` runs
@@ -69,13 +70,52 @@ Run directly inside a running Niri session:
   output changes on start and after output restore on undo to avoid notification
   updates racing screen churn.
 
+## Portal Capture
+
+Niri shares the `sunshine` output with Sunshine through the ScreenCast portal
+(xdg-desktop-portal-gnome on Niri's Mutter ScreenCast API). PipeWire then
+delivers a frame only when the output redraws, at a variable rate up to the
+stream fps. Sunshine's `wlr` backend instead copies on a timer at the stream
+rate unless the output refresh is at least 1.5x the stream fps, and raising
+the virtual output refresh to get there makes Niri render more.
+
+The share is pre-approved, so no dialog needs a click on a new machine. The
+probe target `portal_restore_token`
+(`packages/linux/sunshine/scripts/portal_restore_token.sh`) writes the entry
+the dialog would have written into the permission store `screencast` table:
+
+- granted app id `dev.lizardbyte.app.Sunshine`, which xdg-desktop-portal
+  derives from the systemd unit `app-dev.lizardbyte.app.Sunshine.service`
+- xdg-desktop-portal-gnome restore data naming the monitor by
+  `vendor:product:serial`; Niri reports the virtual output as
+  `niri:sunshine:sunshine`
+
+The token is only the key of that entry, not a secret or signature, so a
+random UUID works. Sunshine reads it from
+`~/.config/sunshine/portal_token.<XDG_SESSION_DESKTOP>`; greetd sets that
+variable to the dotman session name (see `packages/greetd/README.md`). In
+persistent mode the portal reuses the same token: it removes the entry while a
+session restores and writes it back with a new last-used time once the share
+starts, so a Sunshine crash or hang in between loses the entry. The probe
+checks the entry on every push, so a lost entry, a wiped permission store or a
+lost token file is re-seeded even when no Sunshine file changed.
+
+If the portal cannot restore from the entry (the output is missing, the restore
+format changed, or Sunshine runs outside its systemd unit and so gets another
+app id), it shows the share dialog instead. Approve it remotely through
+WayVNC/noVNC with "Remember this selection".
+
+`RemoteDesktop CreateSession failed with response code: 2` at session start is
+expected: Niri has no RemoteDesktop portal, so Sunshine falls back to a
+ScreenCast-only session and keeps using its own virtual input devices.
+
 ## Hybrid GPU Render Device
 
 On hybrid GPU hosts, Niri and Sunshine should use the same render GPU for this
-WLR/NVENC path. Kernel/udev exposes render nodes, but Niri chooses one for
-compositor rendering; Sunshine then imports WLR screencopy dmabufs from that
-compositor into its encoder. If Niri renders on an iGPU while Sunshine encodes
-on a dGPU, cross-device dmabuf import can fail with `Failed to create EGLImage`,
+capture/NVENC path. Kernel/udev exposes render nodes, but Niri chooses one for
+compositor rendering; Sunshine then imports that compositor's capture dmabufs
+(PipeWire for portal capture, screencopy for WLR) into its encoder. If Niri renders on an iGPU while Sunshine encodes
+on a dGPU, cross-device dmabuf import can fail (seen with WLR capture) with `Failed to create EGLImage`,
 repeated `[wayland] Frame capture failed`, and NVENC `InitializeEncoder failed:
 out of memory`.
 
