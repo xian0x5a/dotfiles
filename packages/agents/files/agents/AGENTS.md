@@ -45,7 +45,7 @@
 
 - document for features or techniques of a project, that worth mention or review
 - Use portable paths in docs.
-- Use an ExecPlan (`~/.agents/docs/plans.md`), or another tracker that fits better, when work crosses a context boundary: delegated to subagents or likely to outlive one context window. Write it before the first code edit.
+- Use an ExecPlan (`~/.agents/docs/plans.md`), or another tracker that fits better, when another context must continue the work: implementation split across agents, or work likely to outlive one context window. A self-contained brief covers bounded subtasks such as tests, review, or search. Write the plan before the first code edit.
 
 ## Problem Solving
 
