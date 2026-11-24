@@ -1,5 +1,7 @@
 # disable rtk telemetry
 export RTK_TELEMETRY_DISABLED=1
+# disable T3 Code product events and relay tracing; the desktop app reads this via `$SHELL -ilc`
+export T3CODE_TELEMETRY_ENABLED=false
 
 _merge_agent_instructions() {
   local target=$1
