@@ -61,10 +61,13 @@ path = "~/.claude/agents"
 
 # Claude Code owns ~/.claude/skills (it syncs account skills into synced/), so
 # link each agent-neutral skill into it instead of replacing the directory.
-# post_push links skills that the same push adds and prunes ones it removes.
+# The probe repairs drift; additional_triggers also activates it when agents
+# writes ~/.agents/skills in the same run, so post_push links added skills and
+# prunes removed ones in that push.
 [targets.claude_skills_link]
 sync_policy = "push-only"
 probe = 'sh "$DOTMAN_REPO_ROOT/scripts/manage_child_symlinks.sh" probe "~/.claude/skills" "~/.agents/skills"'
+additional_triggers = ["agents.d_agents", "agents.managed_skills_reconciled"]
 
 [targets.claude_skills_link.hooks]
 post_push = 'sh "$DOTMAN_REPO_ROOT/scripts/manage_child_symlinks.sh" apply "~/.claude/skills" "~/.agents/skills"'
