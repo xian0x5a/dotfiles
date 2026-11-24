@@ -24,10 +24,6 @@ Every line of the comment, blank lines included, starts with `>` so the callout 
 
 ## Placement
 
-Put the callout at the end of the same note, unless the user asks for a separate note.
+Put the callout in the same note, right after the block it comments on; a comment on the note as a whole goes at the end. Use a separate note only when the user asks.
 Leave the surrounding note text as written; your edits stay inside the callout.
-When the note records outside material (a post, an article, the user's words), the note body carries the source and its points, and the callout carries your analysis, corrections, and caveats.
-
-## Content
-
-Write the comment as advisory: what is worth keeping, where you disagree and why, what you could not verify.
+When the note records outside material (a post, an article, the user's words), the note body carries the source and its points, and the callouts carry your own take.

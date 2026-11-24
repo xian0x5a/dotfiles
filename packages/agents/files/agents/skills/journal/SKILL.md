@@ -59,7 +59,7 @@ Capture the final intention, decisions, reusable facts, and lessons. Remove supe
 
 Write plain prose without bullets. Put each independent idea on its own physical line so later edits can target it precisely. Use blank lines between distinct themes.
 
-When the entry records outside material (a post, an article, the user's own words), the body carries the source and its points, and your own take goes in an Agent Comment callout at the end; load the `agent-note-comment` skill for its format.
+When the entry records outside material (a post, an article, the user's own words), the body carries the source and its points, and your own take goes in Agent Comment callouts; load the `agent-note-comment` skill for its format.
 
 The body is Markdown and must render correctly in Obsidian and common Markdown renderers.
 In Obsidian, `#` followed by text in prose becomes a tag; escape it as `\#` (e.g. `\#6-#16`, `\#DB`) unless a tag is intended.
