@@ -49,7 +49,9 @@
 
 ## Problem Solving
 
-- Do not blindly patch for a narrow case, especially if the patch seems over-complicated. Take a chance to see if a simpler and generic approach can be taken as a fresh design
+- Check for a fresh design, simpler and more general, before patching when either holds:
+  - the patch covers only a narrow case, more so when it is complicated;
+  - review still finds real shortcomings after three rounds.
 - For consequential designs, challenge the proposal with a concrete failure case and address it before implementation.
 - Use first principles thinking
 - Grow the system in layers. Start from the smallest version that works end to end, and add each new capability on top of a product that already works. Never trade a working product for unfinished complexity.
@@ -78,7 +80,6 @@
 - Lean on the dependencies already in the project before writing your own implementation or adding packages. Do not assume a library lacks a capability without checking its documentation and types.
 - Make architectural decisions for the long term. Do not accept a stopgap that only works for now and is meant to be replaced later.
 - Do not let review feedback expand the task beyond the user's original goal. Address real shortcomings, but avoid scope creep.
-- If a solution is still not ready after three or more rounds of review, reconsider whether a better solution exists.
 
 ## Verification
 
