@@ -64,7 +64,7 @@
 
 ## Coding
 
-- Choose the simplest implementation that fully meets the current requirements
+- Choose the simplest implementation that fully meets the current requirements. When none on the table does, name the gap and use `novelty-first`.
 - Avoid speculative abstractions, configuration, and indirection.
 - Prefer established, well-maintained libraries when they reduce overall complexity or improve reliability. Do not reimplement common functionality without a clear reason.
 - Reference latest doc with web access.
