@@ -1,0 +1,5 @@
+{
+  "name": "subagent-row",
+  "version": "0.1.0",
+  "description": "Shows each subagent row in the terminal as identity · description · model•effort · context %"
+}

@@ -2,6 +2,14 @@
 
 Managed Claude Code configuration, helpers, and status-line renderers. Domain terms live in `CONTEXT.md`.
 
+## Subagent rows
+
+The `subagent-row` mod (`files/claude/mods/subagent-row`) draws each subagent's row in the terminal's agent list as identity · description · model•effort · context %. Claude Code's own row shows status, elapsed time and tokens instead, and nothing else in the CLI shows a subagent's effort or context use. It replaced the `subagentStatusLine` command, which Claude Code deprecated in favor of mods.
+
+`settings.json` loads it through `env.CLAUDE_CODE_PLUGIN_DIRS`, so it needs no marketplace or install step. Settings `env` overrides the shell environment, so this entry owns the variable: list any other always-on mod folder in it, separated by `:`, and use `claude --plugin-dir` for a one-off. The hook draws terminal rows only; the desktop app and VS Code keep their own, and T3 Code shows a subagent's model and effort in its own UI.
+
+Check a change with `claude plugin validate` and `claude plugin test` on the mod folder. Type-check the deployed copy, `tsc -p ~/.claude/mods/subagent-row`: Claude Code writes the API types there when it loads the mod, and the repo copy has none.
+
 ## Permissions
 
 - `EnterPlanMode` is denied so Claude never switches into plan mode on its own; planning follows the ExecPlan workflow instead. Enter plan mode manually with Shift+Tab when wanted.

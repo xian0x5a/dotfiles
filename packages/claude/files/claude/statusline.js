@@ -178,4 +178,4 @@ function main() {
 
 if (require.main === module) main();
 
-module.exports = { COLORS, colored, contextColor, formatContextWindowSize, renderStatusline };
+module.exports = { COLORS, renderStatusline };

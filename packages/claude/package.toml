@@ -48,9 +48,15 @@ path = "~/.claude/system-prompt.md"
 source = "files/claude/statusline.js"
 path = "~/.claude/statusline.js"
 
-[targets.f_claude_subagent_statusline_js]
-source = "files/claude/subagent-statusline.js"
-path = "~/.claude/subagent-statusline.js"
+# Subagent rows in the terminal's agent list, drawn by a mod. settings.json `env`
+# names this folder in CLAUDE_CODE_PLUGIN_DIRS, so every session loads it.
+[targets.d_claude_mod_subagent_row]
+source = "files/claude/mods/subagent-row"
+path = "~/.claude/mods/subagent-row"
+
+# Claude Code writes the mod's API types here each time it loads the mod.
+[targets.d_claude_mod_subagent_row.ignore]
+patterns = [".claude-plugin/types"]
 
 # User-authored Claude Code subagents. Nothing else writes here, so the whole
 # directory is managed. The agent-neutral ~/.agents/agents use pi's format and
