@@ -1,0 +1,7 @@
+{
+  "userSettings": {
+    "permissionPreset": "AGENT_PERMISSION_PRESET_TURBO",
+    "queuedMessageDeliveryStrategy": "MESSAGE_DELIVERY_STRATEGY_WHEN_IDLE",
+    "themeMode": "THEME_MODE_DARK"
+  }
+}

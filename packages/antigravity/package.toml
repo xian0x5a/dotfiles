@@ -5,6 +5,15 @@ depends = ["agents"]
 # agy writes these itself: `/model` saves the model, the trust prompt adds
 # folders, and the Google Cloud sign-in saves `gcp`. They stay live-local.
 cli_settings_selectors = ["model", "trustedWorkspaces", "gcp"]
+# config.json mixes desktop-app settings with machine state (sidecar projects,
+# migration flags, the remote-control hostname), so it syncs by allowlist.
+# The Turbo preset covers the older autoExecutionPolicy, sandbox and
+# non-workspace access keys, which only business accounts use.
+app_config_selectors = [
+  "userSettings.permissionPreset",
+  "userSettings.queuedMessageDeliveryStrategy",
+  "userSettings.themeMode",
+]
 
 [targets.antigravity_installed]
 sync_policy = "push-only"
@@ -36,6 +45,15 @@ source = "files/gemini/config/skills.json"
 path = "~/.gemini/config/skills.json"
 render = 'dotman rewrite home expand "$DOTMAN_REPO_PATH"'
 capture = 'dotman rewrite home collapse "$DOTMAN_LIVE_PATH"'
+
+# Desktop-app settings. Capture keeps only the allowlist; render keeps all live
+# state and overlays the allowlist from the repo.
+[targets.f_gemini_config_config_json]
+source = "files/gemini/config/config.json"
+path = "~/.gemini/config/config.json"
+chmod = "600"
+render = '{{ JSON_RENDER }} --selector-type remove --selectors {{ vars.antigravity.app_config_selectors|shell_args }}'
+capture = '{{ JSON_CAPTURE }} --selector-type retain --selectors {{ vars.antigravity.app_config_selectors|shell_args }}'
 
 # CLI-only settings. agy rewrites this file at startup and drops keys set to
 # their defaults, so the repo copy holds only non-default values. agy saves it

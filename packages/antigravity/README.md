@@ -20,9 +20,20 @@ At startup agy rewrites the file in sorted key order and drops keys set to their
 
 Telemetry has no settings key. Turn it off once per account in `/config`.
 
+## Desktop app settings
+
+The desktop app saves its global settings in `~/.gemini/config/config.json` under `userSettings`. The same file holds machine state: sidecar project IDs, migration flags, and the remote-control hostname. So it syncs by allowlist (`app_config_selectors`):
+
+- `permissionPreset: TURBO` is the app's equivalent of the CLI's `always-proceed`: no sandbox, commands run without asking, full filesystem access. For personal accounts it replaces the older `autoExecutionPolicy`, `enableTerminalSandbox` and `nonWorkspaceFileAccessPolicy` keys, which stay untracked.
+- `themeMode: DARK`, and `queuedMessageDeliveryStrategy: WHEN_IDLE`, which matches Codex's queued follow-ups.
+- Remote control stays per machine: `remoteControlEnabled` and `remoteControlHostname` are not tracked.
+
+The CLI also reads shared permission rules from this file (`/permissions` Shared scope).
+
+Telemetry (Settings > Account), the interface layout and the orchestrator models are set in the app's Settings panel and do not appear in this file, so they are not tracked.
+
 ## Not ported
 
 - MCP servers and hooks: the Claude and pi configs have none.
 - Subagents: Claude's `browser-fetch` depends on Claude tool names, and agy has a built-in `/browser` subagent. The pi-format agents in `~/.agents/agents` depend on pi's model routing. agy reads its own format from `~/.gemini/config/agents/`.
 - Status line: agy's `statusLine` JSON is close to Claude's, so `statusline.js` could be shared later. agy reports effort as `model.effort` and quota as `quota.<bucket>.remaining_fraction` instead of `rate_limits`.
-- The Antigravity desktop app keeps its own settings in `~/.gemini/config/config.json`, which this package does not manage.
