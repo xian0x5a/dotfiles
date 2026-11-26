@@ -1,0 +1,48 @@
+description = "Google Antigravity desktop app and CLI (agy) configuration"
+depends = ["agents"]
+
+[vars.antigravity]
+# agy writes these itself: `/model` saves the model, the trust prompt adds
+# folders, and the Google Cloud sign-in saves `gcp`. They stay live-local.
+cli_settings_selectors = ["model", "trustedWorkspaces", "gcp"]
+
+[targets.antigravity_installed]
+sync_policy = "push-only"
+probe = '{{ PROBE_PACKAGES_INSTALLED }} antigravity'
+
+[targets.antigravity_installed.hooks]
+pre_push = "{{ INSTALL }} antigravity"
+
+[targets.antigravity_cli_installed]
+sync_policy = "push-only"
+probe = '{{ PROBE_PACKAGES_INSTALLED }} antigravity-cli'
+
+[targets.antigravity_cli_installed.hooks]
+pre_push = "{{ INSTALL }} antigravity-cli"
+
+[targets.antigravity_global_instructions]
+sync_policy = "push-only"
+probe = 'sh "$DOTMAN_REPO_ROOT/scripts/manage_relative_symlink.sh" probe "~/.gemini/AGENTS.md" "~/.agents/AGENTS.md"'
+
+[targets.antigravity_global_instructions.hooks]
+pre_push = 'sh "$DOTMAN_REPO_ROOT/scripts/manage_relative_symlink.sh" apply "~/.gemini/AGENTS.md" "~/.agents/AGENTS.md"'
+
+# Points Antigravity at the agent-neutral skills; codex and pi read
+# ~/.agents/skills on their own. agy 1.5.11 rejects `~/` in this file ("must be
+# an absolute path"), though its docs allow it, so the repo keeps `~/` and push
+# writes $HOME.
+[targets.f_gemini_config_skills_json]
+source = "files/gemini/config/skills.json"
+path = "~/.gemini/config/skills.json"
+render = 'dotman rewrite home expand "$DOTMAN_REPO_PATH"'
+capture = 'dotman rewrite home collapse "$DOTMAN_LIVE_PATH"'
+
+# CLI-only settings. agy rewrites this file at startup and drops keys set to
+# their defaults, so the repo copy holds only non-default values. agy saves it
+# as 0600.
+[targets.f_gemini_antigravity_cli_settings_json]
+source = "files/gemini/antigravity-cli/settings.json"
+path = "~/.gemini/antigravity-cli/settings.json"
+chmod = "600"
+render = '{{ JSON_RENDER }} --selector-type retain --selectors {{ vars.antigravity.cli_settings_selectors|shell_args }}'
+capture = '{{ JSON_CAPTURE }} --selector-type remove --selectors {{ vars.antigravity.cli_settings_selectors|shell_args }}'

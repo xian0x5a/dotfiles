@@ -1,0 +1,9 @@
+{
+  "allowNonWorkspaceAccess": true,
+  "altScreenMode": "always",
+  "colorScheme": "dark",
+  "editorMode": "vim",
+  "notifications": true,
+  "showFeedbackSurvey": false,
+  "toolPermission": "always-proceed"
+}
