@@ -217,6 +217,7 @@
       "source": "anthropics/skills",
       "sourceType": "github",
       "sourceUrl": "https://github.com/anthropics/skills.git",
+      "commit": "e4bb5d960d87126ff3b3a8af1a104b7db67560ba",
       "skillPath": "skills/frontend-design/SKILL.md",
       "pluginName": "example-skills"
     }
