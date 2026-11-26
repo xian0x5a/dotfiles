@@ -25,7 +25,7 @@ Telemetry has no settings key. Turn it off once per account in `/config`.
 The desktop app saves its global settings in `~/.gemini/config/config.json` under `userSettings`. The same file holds machine state: sidecar project IDs, migration flags, and the remote-control hostname. So it syncs by allowlist (`app_config_selectors`):
 
 - `permissionPreset: TURBO` is the app's equivalent of the CLI's `always-proceed`: no sandbox, commands run without asking, full filesystem access. For personal accounts it replaces the older `autoExecutionPolicy`, `enableTerminalSandbox` and `nonWorkspaceFileAccessPolicy` keys, which stay untracked.
-- `themeMode: DARK`, and `queuedMessageDeliveryStrategy: WHEN_IDLE`, which matches Codex's queued follow-ups.
+- `themeMode: DARK`.
 - Remote control stays per machine: `remoteControlEnabled` and `remoteControlHostname` are not tracked.
 
 The CLI also reads shared permission rules from this file (`/permissions` Shared scope).

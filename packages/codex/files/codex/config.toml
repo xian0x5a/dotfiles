@@ -79,7 +79,6 @@ enabled = true
 enabled = true
 
 [desktop]
-followUpQueueMode = "queue"
 dock-icon-preference = "codex-system"
 enabled-reasoning-efforts = ["low", "medium", "high", "xhigh", "max", "ultra"]
 conversationDetailMode = "STEPS_COMMANDS"
