@@ -14,7 +14,7 @@ Ports the shared agent setup that Claude Code, Codex and pi use to Antigravity: 
 
 ## CLI settings
 
-`~/.gemini/antigravity-cli/settings.json` mirrors the Claude and Codex choices: vim editing, dark full-screen TUI, notifications, no feedback survey. `toolPermission: "always-proceed"` is agy's `--dangerously-skip-permissions`, which matches the zsh `claude` wrapper's `bypassPermissions`. It takes precedence over the default `auto` mode. Deny rules still apply.
+`~/.gemini/antigravity-cli/settings.json` mirrors the Claude and Codex choices: vim editing, dark full-screen TUI, notifications, no feedback survey. `vimInsertFirst` (`/config` → Editor Mode → Insert First) makes `Enter` submit from Insert mode, as in Claude Code; `shift+enter` or `ctrl+j` inserts a newline. Without it, agy's vim mode treats `Enter` in Insert mode as a newline and submits only from Normal mode. `toolPermission: "always-proceed"` is agy's `--dangerously-skip-permissions`, which matches the zsh `claude` wrapper's `bypassPermissions`. It takes precedence over the default `auto` mode. Deny rules still apply.
 
 At startup agy rewrites the file in sorted key order and drops keys set to their defaults, so keep only non-default values here. `model`, `trustedWorkspaces` and `gcp` stay live-local, because agy writes them itself.
 
