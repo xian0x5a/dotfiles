@@ -42,6 +42,11 @@
       "config": {
         "launchArgs": "--system-prompt-file ~/.claude/system-prompt.md"
       }
+    },
+    "antigravity": {
+      "driver": "antigravity",
+      "displayName": "Antigravity",
+      "enabled": true
     }
   }
 }
