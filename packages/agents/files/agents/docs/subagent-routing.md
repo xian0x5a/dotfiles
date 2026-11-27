@@ -13,7 +13,7 @@ Heuristic reference for routing each subagent by role to a model tier and effort
 
 - Give review a tier at or above the implementation it checks: implementer mistakes get caught downstream, a reviewer's miss ships silently.
 - Advisor and final review buy an independent read: prefer a model that differs from the parent's. Keep an advisor exchange short: a question in, an answer back.
-- Machine learning work (training, model design, ML research): prefer a non-Anthropic model when available.
+- ML implementation and research (training, model design, experiments): prefer a non-Anthropic model that meets the tier; if an Anthropic model does it, prefer a non-Anthropic reviewer that meets the review tier.
 - Running a smaller tier than listed: only a `⁺` model, with effort raised one level.
 - Retry after a failure: first give the subagent a way to check its own work (a test, a build, a script) if it had none. Then one step up: raise effort while below `high`, otherwise move up a tier and drop effort one level. Effort buys more thought, a tier buys knowledge and skill: when the failure shows the model lacked those, move up a tier directly. Effort above `high` is the last resort, once apex at `high` has failed.
 - Families without a level (e.g. no `max`): use the nearest; on a tie, round up.
