@@ -2,6 +2,15 @@
 
 Ports the shared agent setup that Claude Code, Codex and pi use to Antigravity: the desktop app and the `agy` CLI. Both read `~/.gemini/AGENTS.md` and `~/.gemini/config/`. Only the CLI reads `~/.gemini/antigravity-cli/`. Upstream docs: <https://antigravity.google/docs>.
 
+## Install
+
+- The desktop app comes from the package manager: the AUR on Arch, Homebrew on macOS.
+- `agy` goes in `~/.local/bin`, because agy only updates itself where it can write its own binary. The AUR build lives in root-owned `/usr/bin`, so agy skips every update there (`auto_updater.go`: "Directory /usr/bin is not fully accessible").
+- `scripts/install_agy.sh` does what Google's `install.sh` does: it reads the release feed for the platform, checks the download's SHA-512, and copies the binary in. It leaves out the installer's last step, `agy install`. That step appends a `PATH` export to `.zshrc`, `.zprofile`, `.bashrc` and `.profile` even when `~/.local/bin` is already on `PATH`, and the shell package owns those files.
+- The install runs once per machine. After that, agy updates itself in the background, and topgrade runs `agy update`.
+- Machines that had the AUR build: uninstall it once with `paru -Rns antigravity-cli`. Otherwise anything that runs with a default `PATH` (sudo, systemd units) still finds the old `/usr/bin/agy`, which never updates.
+- Google doesn't publish agy on npm or Homebrew. The npm packages with Antigravity names are third-party wrappers.
+
 ## Instructions and skills
 
 - `~/.gemini/AGENTS.md` links to `~/.agents/AGENTS.md`, like the other agents. agy loads it as an always-on global rule.

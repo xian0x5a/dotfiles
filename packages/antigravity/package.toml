@@ -21,12 +21,16 @@ probe = '{{ PROBE_PACKAGES_INSTALLED }} antigravity'
 [targets.antigravity_installed.hooks]
 pre_push = "{{ INSTALL }} antigravity"
 
+# agy updates itself only where it can write its own binary, so it lives in
+# ~/.local/bin. Package-manager builds sit in root-owned /usr/bin, where agy
+# skips its updates. The probe checks that path, not PATH: a leftover
+# package-manager agy on PATH would hide a missing self-updating install.
 [targets.antigravity_cli_installed]
 sync_policy = "push-only"
-probe = '{{ PROBE_PACKAGES_INSTALLED }} antigravity-cli'
+probe = 'if [ -x "$HOME/.local/bin/agy" ]; then exit 100; fi; exit 0'
 
 [targets.antigravity_cli_installed.hooks]
-pre_push = "{{ INSTALL }} antigravity-cli"
+pre_push = 'sh "$DOTMAN_PACKAGE_ROOT/scripts/install_agy.sh"'
 
 [targets.antigravity_global_instructions]
 sync_policy = "push-only"
