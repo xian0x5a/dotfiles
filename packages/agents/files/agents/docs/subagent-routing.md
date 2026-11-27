@@ -35,4 +35,4 @@ Apex models are the strongest at carrying out the hardest work and cost more per
 
 ## Staleness
 
-This doc is stale when you judge a pick in it a poor fit for a case, such as one that took repeated retries, or the tier list misses an available model or names a retired one. Then suggest an update to the user, naming the role, the pick that failed, and the pick that worked.
+This doc is stale when you judge a pick in it a poor fit for a case, such as one that took repeated retries; when a provider (subscription) already in the tier list offers a better pick than the one listed, such as Gemini 4 over Gemini 3; or when the list names a retired model. Then suggest an update to the user, naming the role, the pick that failed, and the pick that worked.
