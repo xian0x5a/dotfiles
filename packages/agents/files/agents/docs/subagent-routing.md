@@ -24,8 +24,8 @@ Resolve a tier to an available model at delegation time (`orchestrator_capabilit
 | Tier       | Examples                         |
 | ---------- | -------------------------------- |
 | apex       | Fable                            |
-| frontier   | Opus                             |
-| standard   | Sonnet                           |
+| frontier   | Opus, Gemini Neon⁺               |
+| standard   | Sonnet, Gemini Hydrogen          |
 | small      | Haiku, GPT Luna, DeepSeek Flash⁺ |
 
 `⁺` marks a model that can stand in for the tier above when effort is raised one level.
