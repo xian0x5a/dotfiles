@@ -8,7 +8,7 @@
 set -eu
 
 usage() {
-    printf 'usage: %s --name <name> --url <url> [--link-command] [--drop-mime-types]\n' "${0##*/}" >&2
+    printf 'usage: %s --name <name> --url <url> [--link-command] [--drop-mime-types] [--drop-no-sandbox]\n' "${0##*/}" >&2
     exit 64
 }
 
@@ -72,12 +72,19 @@ install_desktop_entry() {
     # otherwise appear twice in "Open with" choosers for their schemes.
     drop_mime_types_script=
     [ "$drop_mime_types" = false ] || drop_mime_types_script='/^MimeType=/d'
+    # electron-builder's legacy AppImage runtime writes --no-sandbox into Exec,
+    # which turns Chromium's sandbox off even where the kernel supports it.
+    drop_no_sandbox_script=
+    # Loops so a repeated flag goes too; the probe matches any occurrence and
+    # would otherwise ask for re-integration on every push.
+    [ "$drop_no_sandbox" = false ] || drop_no_sandbox_script='/^Exec=/{:a;s/ --no-sandbox\( \|$\)/\1/;ta;}'
     # Point Exec at the stable AppImage path, keeping upstream arguments.
     mkdir -p "$applications_dir"
     sed \
         -e "s|^Exec=[^ ]*|Exec=\"$appimage_path\"|" \
         -e "s|^TryExec=.*|TryExec=$appimage_path|" \
         -e "$drop_mime_types_script" \
+        -e "$drop_no_sandbox_script" \
         "$source_entry" >"$desktop_entry"
     printf '%s\n' "$desktop_entry" >>"$record_path.part"
 }

@@ -8,13 +8,14 @@ command_dir=$HOME/.local/bin
 # probes and re-integration never scan the shared applications/icons dirs.
 record_dir=${XDG_STATE_HOME:-$HOME/.local/state}/appimages
 
-# Sets $name, $url, $link_command, and $drop_mime_types from --name, --url,
-# --link-command, --drop-mime-types.
+# Sets $name, $url, $link_command, $drop_mime_types, and $drop_no_sandbox from
+# --name, --url, --link-command, --drop-mime-types, --drop-no-sandbox.
 parse_appimage_args() {
   name=""
   url=""
   link_command=false
   drop_mime_types=false
+  drop_no_sandbox=false
   while [ "$#" -gt 0 ]; do
     case $1 in
       --name)
@@ -33,6 +34,10 @@ parse_appimage_args() {
         ;;
       --drop-mime-types)
         drop_mime_types=true
+        shift
+        ;;
+      --drop-no-sandbox)
+        drop_no_sandbox=true
         shift
         ;;
       *)

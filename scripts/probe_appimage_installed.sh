@@ -3,7 +3,7 @@
 set -eu
 
 usage() {
-    printf 'usage: %s --name <name> [--link-command]\n' "${0##*/}" >&2
+    printf 'usage: %s --name <name> [--link-command] [--drop-no-sandbox]\n' "${0##*/}" >&2
     exit 64
 }
 
@@ -18,7 +18,15 @@ desktop_entry=""
 
 missing=""
 [ -x "$appimage_path" ] || missing="$missing AppImage"
-{ [ -n "$desktop_entry" ] && [ -f "$desktop_entry" ]; } || missing="$missing desktop-entry"
+if [ -n "$desktop_entry" ] && [ -f "$desktop_entry" ]; then
+    # An entry integrated before --drop-no-sandbox still turns the sandbox off,
+    # so re-integrate it.
+    if [ "$drop_no_sandbox" = true ] && grep -Eq '^Exec=.* --no-sandbox( |$)' "$desktop_entry"; then
+        missing="$missing sandboxed-desktop-entry"
+    fi
+else
+    missing="$missing desktop-entry"
+fi
 if [ "$link_command" = true ] && [ "$(readlink -- "$command_path" || true)" != "$appimage_path" ]; then
     missing="$missing command-link"
 fi

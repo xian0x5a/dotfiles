@@ -19,13 +19,17 @@ app_config_selectors = [
 # is not defined". So we install the AppImage once and the app replaces the file
 # in place from then on. The Homebrew cask updates itself (`auto_updates`).
 # The app registers its sign-in link handler through the menu entry, so the
-# entry keeps its MimeType.
+# entry keeps its MimeType. Google's AppImage puts --no-sandbox in the menu
+# entry's Exec, which turns Chromium's sandbox off for everything the app
+# renders, including its built-in browser, and makes the app refuse to run
+# agent scripts in its script jail. Kernels with unprivileged user namespaces
+# (Arch's default) run the sandbox without it, so --drop-no-sandbox removes it.
 [targets.antigravity_installed]
 sync_policy = "push-only"
-probe = '{% if os == "linux" %}{{ PROBE_APPIMAGE_INSTALLED }} --name antigravity --link-command{% elif os == "darwin" %}{{ PROBE_PACKAGES_INSTALLED }} antigravity{% endif %}'
+probe = '{% if os == "linux" %}{{ PROBE_APPIMAGE_INSTALLED }} --name antigravity --link-command --drop-no-sandbox{% elif os == "darwin" %}{{ PROBE_PACKAGES_INSTALLED }} antigravity{% endif %}'
 
 [targets.antigravity_installed.hooks]
-pre_push = '{% if os == "linux" %}url=$(sh "$DOTMAN_PACKAGE_ROOT/scripts/latest_appimage_url.sh" {{ cpu_arch }}) && {{ APPIMAGE_INSTALL }} --name antigravity --url "$url" --link-command{% elif os == "darwin" %}{{ INSTALL }} antigravity{% endif %}'
+pre_push = '{% if os == "linux" %}url=$(sh "$DOTMAN_PACKAGE_ROOT/scripts/latest_appimage_url.sh" {{ cpu_arch }}) && {{ APPIMAGE_INSTALL }} --name antigravity --url "$url" --link-command --drop-no-sandbox{% elif os == "darwin" %}{{ INSTALL }} antigravity{% endif %}'
 
 # agy updates itself only where it can write its own binary, so it lives in
 # ~/.local/bin. Package-manager builds sit in root-owned /usr/bin, where agy
