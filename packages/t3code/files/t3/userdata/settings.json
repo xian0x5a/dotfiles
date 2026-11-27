@@ -11,6 +11,7 @@
   "compactIdleThreads": true,
   "idleCompaction": "beforeCacheExpires",
   "autoResumeLimitedThreads": true,
+  "linkedEnvironmentsEnabled": true,
   "sidebarAutoSettleOnMerge": false,
   "providerInstances": {
     "pi": {
