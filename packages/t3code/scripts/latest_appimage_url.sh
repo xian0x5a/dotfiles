@@ -3,9 +3,10 @@
 # Usage: latest_appimage_url.sh <cpu-arch>
 #
 # Prints the download URL of the latest AppImage for <cpu-arch> (dotman's
-# normalized `cpu_arch`: `x86_64` or `arm64`). Release assets carry the version
-# in their name and upstream publishes no unversioned alias, so read it from the
-# electron-updater manifest, the same file the app updates from.
+# normalized `cpu_arch`: `x86_64` or `arm64`). Upstream has renamed the asset
+# before (T3-Code-<version>-x86_64.AppImage until 0.1.12, T3-Code-x86_64.AppImage
+# since 0.1.13), so read the name from the electron-updater manifest, the same
+# file the app updates from, and accept either form.
 
 set -eu
 
@@ -29,7 +30,7 @@ esac
 
 appimage_file=$(
     curl -fsSL --retry 3 "$release_base/$manifest" |
-        sed -n "s/^  - url: \(T3-Code-.*-$asset_arch\.AppImage\)\$/\1/p"
+        sed -n "s/^  - url: \(T3-Code-.*$asset_arch\.AppImage\)\$/\1/p"
 )
 if [ -z "$appimage_file" ]; then
     printf 'error: no %s AppImage listed in %s/%s\n' "$asset_arch" "$release_base" "$manifest" >&2
