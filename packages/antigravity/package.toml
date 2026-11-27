@@ -14,12 +14,18 @@ app_config_selectors = [
   "userSettings.themeMode",
 ]
 
+# The desktop app updates itself only as an AppImage on Linux: the AUR build
+# unpacks Google's .tar.gz into /opt, and its updater gives up with "APPIMAGE env
+# is not defined". So we install the AppImage once and the app replaces the file
+# in place from then on. The Homebrew cask updates itself (`auto_updates`).
+# The app registers its sign-in link handler through the menu entry, so the
+# entry keeps its MimeType.
 [targets.antigravity_installed]
 sync_policy = "push-only"
-probe = '{{ PROBE_PACKAGES_INSTALLED }} antigravity'
+probe = '{% if os == "linux" %}{{ PROBE_APPIMAGE_INSTALLED }} --name antigravity --link-command{% elif os == "darwin" %}{{ PROBE_PACKAGES_INSTALLED }} antigravity{% endif %}'
 
 [targets.antigravity_installed.hooks]
-pre_push = "{{ INSTALL }} antigravity"
+pre_push = '{% if os == "linux" %}url=$(sh "$DOTMAN_PACKAGE_ROOT/scripts/latest_appimage_url.sh" {{ cpu_arch }}) && {{ APPIMAGE_INSTALL }} --name antigravity --url "$url" --link-command{% elif os == "darwin" %}{{ INSTALL }} antigravity{% endif %}'
 
 # agy updates itself only where it can write its own binary, so it lives in
 # ~/.local/bin. Package-manager builds sit in root-owned /usr/bin, where agy
